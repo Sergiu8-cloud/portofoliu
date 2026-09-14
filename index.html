@@ -83,7 +83,7 @@ a{color:inherit}
 .frame-wrap{position:relative}
 .frame{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;border-radius:4px;
   background:var(--bg2);border:1px solid var(--line);box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
-.frame iframe{position:absolute;top:0;left:0;width:1400px;height:875px;border:0;pointer-events:none;
+.frame iframe{position:absolute;top:0;left:0;width:1400px;height:875px;border:0;
   transform-origin:top left;background:#fff}
 .frame .badge{position:absolute;top:14px;right:14px;z-index:3;background:rgba(11,10,8,.72);
   color:var(--gold-l);font-size:11px;letter-spacing:1.5px;padding:6px 12px;border:1px solid var(--line);border-radius:20px}
@@ -196,8 +196,7 @@ PROJECTS.forEach((p, i) => {
   row.className = 'row' + (i % 2 ? ' flip' : '');
 
   const frameInner = p.preview
-    ? `<iframe src="${p.preview}" loading="lazy" title="${p.title}"
-         style="transform:scale(0.4)"></iframe>
+    ? `<iframe src="${p.preview}" loading="lazy" title="${p.title}"></iframe>
        <span class="badge">previzualizare live</span>`
     : `<div class="soon">
          <span class="mark" style="color:${p.accent}">${p.title}</span>
@@ -215,6 +214,21 @@ PROJECTS.forEach((p, i) => {
     </div>`;
   rowsEl.appendChild(row);
 });
+
+// Fiecare previzualizare e un site "adevărat" de 1400px lățime, micșorat
+// să încapă în cadrul lui — dar cadrul e altă mărime pe telefon față de
+// calculator, așa că micșorarea trebuie calculată din nou pentru fiecare
+// ecran, nu fixată la un singur procent.
+function scalePreviews() {
+  document.querySelectorAll('.frame').forEach(frame => {
+    const iframe = frame.querySelector('iframe');
+    if (!iframe) return;
+    const scale = frame.clientWidth / 1400;
+    iframe.style.transform = `scale(${scale})`;
+  });
+}
+scalePreviews();
+window.addEventListener('resize', scalePreviews);
 </script>
 
 <script>
