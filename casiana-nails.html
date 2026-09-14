@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casiana Nails — Programări</title>
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" id="lbClose">&times;</span>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<header>
+  <nav class="wrap">
+    <div class="brand"><img src="images/logo.png" alt="Casiana Nails"><span>CASIANA</span></div>
+    <div class="navlinks" id="navlinks">
+      <a href="#acasa">Acasă</a>
+      <a href="#servicii">Servicii</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#program">Program</a>
+      <a href="#programare" class="nav-cta">Programează-te</a>
+    </div>
+    <button class="burger" id="burger"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<section class="hero" id="acasa">
+  <div class="ring-deco"></div>
+  <div class="ring-deco two"></div>
+  <div class="wrap hero-inner">
+    <img class="hero-logo" src="images/logo.png" alt="Casiana Nails">
+    <div class="eyebrow">Salon de manichiură &amp; pedichiură</div>
+    <p class="sub">Unghii lucrate cu grijă, într-un decor discret și elegant</p>
+    <div class="btnrow">
+      <a href="#programare" class="btn btn-gold">Programează-te acum</a>
+      <a href="#galerie" class="btn btn-outline">Vezi lucrări</a>
+    </div>
+    <div class="hero-meta">
+      <div><div class="num">6</div><div class="lab">Servicii</div></div>
+      <div><div class="num">10–18</div><div class="lab">Marți – Sâmbătă</div></div>
+      <div><div class="num">100%</div><div class="lab">Materiale premium</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec services" id="servicii">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Prețuri &amp; durată</div>
+      <h2>Serviciile noastre</h2>
+      <div class="divider"></div>
+      <p>Fiecare lucrare este realizată integral cu produse de calitate, adaptată formei și dorinței fiecărei cliente.</p>
+    </div>
+    <div class="svc-grid reveal" id="svcGrid"></div>
+  </div>
+</section>
+
+<section class="sec" id="galerie">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Portofoliu</div>
+      <h2>Exemple de lucrări</h2>
+      <div class="divider"></div>
+      <p>O selecție din lucrările realizate în salon — pentru inspirație înainte de programare.</p>
+    </div>
+    <div class="gal-grid reveal" id="galGrid"></div>
+  </div>
+</section>
+
+<section class="sec booking" id="programare">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Rezervă-ți locul</div>
+      <h2>Programare pe WhatsApp</h2>
+      <div class="divider"></div>
+      <p>Completează datele tale mai jos și trimite-ne un mesaj pe WhatsApp — stabilim împreună data și ora.</p>
+    </div>
+
+    <div class="booking-panel wa-panel">
+      <div class="form-grid">
+        <div class="field"><label>Nume &amp; prenume <span class="req">*</span></label><input type="text" id="waName" placeholder="Ex: Maria Popescu" required></div>
+        <div class="field">
+          <label>Serviciul dorit <span class="req">*</span></label>
+          <div class="wa-select" id="waSelect">
+            <button type="button" class="wa-select-btn" id="waSelectBtn">
+              <span id="waSelectLabel">Alege serviciul</span>
+              <span class="wa-arrow">▾</span>
+            </button>
+            <div class="wa-select-list" id="waSelectList"></div>
+          </div>
+        </div>
+        <div class="field full">
+          <label>Număr de telefon <span class="req">*</span></label>
+          <input type="tel" id="waPhone" inputmode="tel" maxlength="16" placeholder="07xx xxx xxx" required>
+          <span class="field-hint">Doar numere de telefon din România.</span>
+        </div>
+      </div>
+      <button type="button" class="btn btn-gold wa-send" id="waSendBtn">Trimite mesaj pe WhatsApp</button>
+      <div class="wa-msg" id="waMsg"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec insta-cta">
+  <div class="wrap insta-cta-inner reveal">
+    <div class="eyebrow">Urmărește-ne</div>
+    <h2>Vezi cele mai noi lucrări pe Instagram</h2>
+    <a href="https://www.instagram.com/casiana.nails?stkn=MTJ2bTRvNWJjMWcxeg==" target="_blank" rel="noopener" class="btn btn-gold insta-btn">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+      @casiana.nails
+    </a>
+  </div>
+</section>
+
+<section class="sec hours-sec" id="program">
+  <div class="wrap hours-grid">
+    <div class="reveal">
+      <div class="eyebrow">Program</div>
+      <h2 style="margin:10px 0 26px; font-size:34px;">Orar de funcționare</h2>
+      <ul class="hours-list">
+        <li><span>Marți – Sâmbătă</span><span>10:00 – 18:00</span></li>
+        <li><span>Duminică – Luni</span><span>Închis</span></li>
+        <li><span>Ultima programare</span><span>18:00</span></li>
+        
+      </ul>
+    </div>
+    <div class="contact-block reveal">
+      <div class="eyebrow">Contact</div>
+      <h3 style="margin-top:10px;">Contactează-ne</h3>
+      <p>Pentru întrebări sau modificări ale programării, ne găsești pe oricare dintre canalele de mai jos.</p>
+      <ul class="contact-list">
+        <li><b>Tel:</b> 0748607772</li>
+        <li><b>Instagram:</b> <a href="https://www.instagram.com/casiana.nails?stkn=MTJ2bTRvNWJjMWcxeg==" target="_blank" rel="noopener">@casiana.nails</a></li>
+        <li><b>Adresă:</b>Str:Smardan 53-55,(IASI)</li>
+      </ul>
+      <a href="#programare" class="btn btn-gold" style="margin-top:20px;">Programează-te</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand" style="justify-content:center;"><img src="images/logo.png" alt="Casiana Nails" style="height:40px;"><span>CASIANA NAILS</span></div>
+    <div class="foot-line"></div>
+    <p>Manichiură · Pedichiură · Semipermanent · Gel</p>
+    <p class="foot-copy">© 2026 Casiana Nails. Toate drepturile rezervate.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
