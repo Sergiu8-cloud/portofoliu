@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://devize-servise-582y.vercel.app/sitemap.xml
