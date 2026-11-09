@@ -1,0 +1,2269 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="google-site-verification" content="ARHEhzJ_A5pH5-5H2SXuFVgysU5A0OSUWUcrL_Iamac" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<meta name="description" content="Devize Service: aplicație online pentru service-uri auto. Devize și fișe de lucrări cu TVA, istoric pe număr auto, stări și încasări, profit pe deviz. Funcționează pe telefon și pe calculator.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ro_RO">
+<meta property="og:title" content="Devize Service - aplicație de devize pentru service auto">
+<meta property="og:description" content="Fă devize și fișe de lucrări în câteva secunde, cu TVA calculat ca la factură, istoric pe număr auto și profit pe deviz.">
+<meta name="twitter:card" content="summary">
+<title>Devize Service - aplicație de devize pentru service auto</title>
+<meta name="theme-color" content="#15181d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Devize">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e4690c'/%3E%3Cpath d='M20 16h14c10 0 16 6 16 16s-6 16-16 16H20z' fill='none' stroke='%2315181d' stroke-width='8' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #f1f1ef;
+  --card: #ffffff;
+  --ink: #15181d;
+  --muted: #626a75;
+  --line: #dcdee2;
+  --graphite: #15181d;
+  --accent: #e4690c;
+  --accent-d: #c75a07;
+  --accent-ink: #15181d;
+  --blue: #0b3a9c;
+  --danger: #b3342f;
+  --ok: #2d7a4f;
+  --warn: #a8650a;
+  --f-body: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --f-head: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 var(--f-body); }
+h2 { font-family: var(--f-head); font-weight: 700; font-size: 1.7rem; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 14px; line-height: 1.1; }
+
+.top { background: var(--graphite); color: #fff; display: flex; align-items: center; gap: 18px; padding: 0 24px; min-height: 56px; position: sticky; top: 0; z-index: 5; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--f-head); font-weight: 700; font-size: 1.3rem; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+.brand svg { width: 30px; height: 30px; display: block; flex: none; }
+.svc { font-size: 0.82rem; color: #aeb6c2; border: 1px solid #38404c; border-radius: 999px; padding: 3px 12px; margin-right: auto; max-width: 30ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sync { font-size: 0.82rem; color: #9fb3c8; }
+.sync.err { color: #ff9d97; font-weight: 600; cursor: pointer; text-decoration: underline; }
+.top nav { display: flex; gap: 2px; align-self: stretch; align-items: stretch; }
+.top nav button { background: none; border: 0; border-bottom: 3px solid transparent; color: #c5ccd6; padding: 0 14px; font: inherit; cursor: pointer; min-height: 56px; }
+.top nav button:hover { color: #fff; }
+.top nav button.on { color: #fff; border-bottom-color: var(--accent); }
+.top nav button.cta { background: var(--accent); color: var(--accent-ink); font-weight: 600; border-bottom: 0; border-radius: 4px; align-self: center; min-height: 36px; margin: 0 8px; }
+.top nav button.cta:hover { background: #f07a1f; color: var(--accent-ink); }
+main { max-width: 1040px; margin: 0 auto; padding: 24px 24px 60px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; margin-bottom: 14px; }
+.card h3 { margin: 0 0 12px; font-family: var(--f-head); font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(12, 1fr); }
+.f { grid-column: span 3; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.f.w2 { grid-column: span 2; } .f.w4 { grid-column: span 4; } .f.w6 { grid-column: span 6; } .f.w12 { grid-column: span 12; }
+label { font-size: 0.8rem; color: var(--muted); }
+input, select, textarea { font: inherit; padding: 8px 10px; border: 1px solid #c3c8cf; border-radius: 4px; background: #fff; color: var(--ink); width: 100%; min-width: 0; }
+textarea { resize: vertical; min-height: 64px; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+input.plate-input { font-family: var(--f-mono); font-weight: 600; font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase; border: 2px solid var(--ink); border-radius: 6px; padding: 7px 10px 7px 44px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffd23f' d='M12 3l2.4 5.2 5.6.6-4.2 3.8 1.2 5.6L12 15.4 7 18.2l1.2-5.6L4 8.8l5.6-.6z'/%3E%3C/svg%3E") no-repeat 9px center / 17px, linear-gradient(90deg, var(--blue) 0 34px, #fff 34px); }
+button { font: inherit; cursor: pointer; }
+input[list]::-webkit-calendar-picker-indicator { display: none !important; }
+button:disabled { opacity: 0.6; cursor: default; }
+.btn { background: var(--accent); color: var(--accent-ink); border: 0; padding: 9px 18px; border-radius: 4px; font-weight: 600; }
+.btn:hover:not(:disabled) { background: #f07a1f; }
+.btn.sec { background: #fff; color: var(--ink); border: 1px solid #b4bac3; font-weight: 500; }
+.btn.sec:hover { background: #f3f4f6; }
+.btn.danger { background: #fff; color: var(--danger); border: 1px solid #e0b4b1; font-weight: 500; }
+.btn.small { padding: 6px 10px; font-size: 0.85rem; }
+.btn:focus-visible, .x:focus-visible, .top button:focus-visible, .linkbtn:focus-visible { outline: 3px solid #7fa8e8; outline-offset: 2px; }
+.linkbtn { background: none; border: 0; color: var(--ink); text-decoration: underline; padding: 4px 2px; }
+.bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+.bar .grow { flex: 1; min-width: 180px; }
+.spacer { flex: 1; }
+.pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; }
+.pill.open { background: #fdeede; color: var(--accent-d); }
+.pill.closed { background: #def1e6; color: var(--ok); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px; min-width: 0; }
+.stat span { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.stat b { font-family: var(--f-head); font-size: 2rem; font-weight: 700; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.stat small { font-size: 0.5em; color: var(--muted); font-weight: 600; }
+table.list { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+table.list th { text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 10px 12px; background: #f7f7f5; border-bottom: 1px solid var(--line); }
+table.list td { padding: 10px 12px; border-bottom: 1px solid #edeeef; }
+table.list tr.row { cursor: pointer; }
+table.list tr.row:hover td { background: #fbf6f1; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.plt { display: inline-flex; align-items: stretch; border: 1.5px solid var(--ink); border-radius: 4px; background: #fff; font-family: var(--f-mono); font-weight: 600; letter-spacing: 0.06em; font-size: 0.9rem; overflow: hidden; white-space: nowrap; }
+.plt i { background: var(--blue); color: #ffd23f; font-style: normal; font-size: 0.7rem; display: flex; align-items: center; padding: 0 6px; }
+.plt b { font-weight: 600; padding: 1px 9px; }
+.empty { color: var(--muted); padding: 18px 4px; margin: 0; }
+.emptybox { background: var(--card); border: 1px dashed #b4bac3; border-radius: 6px; padding: 36px 20px; text-align: center; }
+.emptybox p { margin: 0 0 14px; color: var(--muted); }
+.notice { background: #fdeede; border: 1px solid #f0c9a3; color: #6b3a07; padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; }
+.notice.err { background: #fbe9e8; border-color: #e0b4b1; color: #7d1f1b; }
+.notice.ok { background: #e4f3ea; border-color: #b5d9c3; color: #1d5a37; }
+.hint { font-size: 0.85rem; color: var(--muted); margin: 6px 0 0; }
+.hint b { color: var(--ink); }
+.center { text-align: center; padding: 60px 0; color: var(--muted); }
+
+.is-auth .top { display: none; }
+.is-auth main { max-width: none; padding: 0; }
+.authwrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); min-height: 100vh; }
+.hero { background: var(--graphite); color: #fff; padding: 44px clamp(24px, 5vw, 72px); display: flex; flex-direction: column; gap: 26px; overflow: hidden; }
+.hero .wm { display: flex; align-items: center; gap: 10px; font-family: var(--f-head); font-weight: 700; font-size: 1.4rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.hero .wm svg { width: 34px; height: 34px; }
+.hero h1 { font-family: var(--f-head); font-weight: 700; font-size: clamp(2.4rem, 4.6vw, 3.9rem); line-height: 1; margin: 12px 0 0; text-transform: uppercase; max-width: 12ch; text-wrap: balance; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; max-width: 46ch; color: #c9d0da; }
+.hero li { padding-left: 22px; position: relative; }
+.hero li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 10px; height: 10px; border-radius: 2px; background: var(--accent); }
+.mock { background: #fff; color: #000; width: min(340px, 100%); padding: 16px 18px 14px; font-size: 11px; line-height: 1.45; transform: rotate(-1.8deg); box-shadow: 0 22px 44px rgba(0,0,0,0.5); margin-top: auto; align-self: flex-start; position: relative; }
+.mock .tag { position: absolute; top: -10px; right: 12px; background: var(--accent); color: var(--accent-ink); font-weight: 700; letter-spacing: 0.1em; font-size: 9px; padding: 2px 8px; text-transform: uppercase; }
+.mock .mh { display: flex; justify-content: space-between; gap: 10px; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 8px; }
+.mock .mh b { font-size: 12px; }
+.mock .mh span { font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.mock .car { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.mock .r { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #ddd; font-variant-numeric: tabular-nums; }
+.mock .t { display: flex; justify-content: space-between; padding: 2px 0; font-variant-numeric: tabular-nums; }
+.mock .g { display: flex; justify-content: space-between; border-top: 2px solid #000; margin-top: 4px; padding-top: 4px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.formside { display: flex; align-items: center; justify-content: center; padding: 32px 24px; background: var(--bg); }
+.authbox { max-width: 420px; margin: 40px auto; }
+.formside .authbox { width: 100%; margin: 0; padding: 26px 26px 22px; }
+.authbox form { display: flex; flex-direction: column; gap: 12px; }
+.authsub { margin: -6px 0 16px; color: var(--muted); }
+.pwrap { position: relative; }
+.pwrap input { padding-right: 76px; }
+.pwbtn { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: 0; color: var(--muted); font-size: 0.82rem; padding: 6px 10px; text-decoration: underline; cursor: pointer; }
+.pwbtn:hover { color: var(--ink); }
+.authlinks { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.authnote { margin: 18px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 0.82rem; color: var(--muted); }
+
+.lhead, .lrow { display: grid; grid-template-columns: 112px minmax(0, 1fr) 76px 112px 112px 34px; gap: 8px; align-items: center; }
+.lhead { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding-bottom: 6px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+.lrow { margin-bottom: 8px; }
+.lrow .ltot { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.lrow input[data-k="qty"], .lrow input[data-k="price"], .lhead span:nth-child(3), .lhead span:nth-child(4), .lhead span:nth-child(5) { text-align: right; }
+.x { background: transparent; border: 0; color: var(--muted); font-size: 1.3rem; line-height: 1; border-radius: 4px; height: 34px; }
+.x:hover { color: var(--danger); background: #fbe9e8; }
+.pkg { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.pkg select { width: auto; min-width: 180px; }
+.pkg input { width: 200px; }
+.totals { margin-left: auto; width: 320px; max-width: 100%; }
+.totals div { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-variant-numeric: tabular-nums; }
+.totals #sumRows { display: block; padding: 0; }
+.totals .grand { border-top: 2px solid var(--ink); margin-top: 6px; padding-top: 8px; font-size: 1.25rem; font-weight: 700; }
+.totals input { width: 120px; text-align: right; padding: 4px 8px; }
+
+.seg { display: inline-flex; border: 1px solid #b4bac3; border-radius: 4px; overflow: hidden; }
+.seg button { background: #fff; border: 0; padding: 8px 16px; color: var(--ink); }
+.seg button.on { background: var(--graphite); color: #fff; }
+
+.paper { background: #fff; color: #000; width: 210mm; max-width: 100%; margin: 0 auto; padding: 14mm; box-shadow: 0 1px 4px rgba(20,33,46,0.18), 0 8px 24px rgba(20,33,46,0.08); font-size: 10.5pt; line-height: 1.4; }
+.dh { display: flex; justify-content: space-between; gap: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 12px; }
+.dh .co { display: flex; gap: 12px; align-items: flex-start; }
+.dh .co img { max-height: 60px; max-width: 150px; object-fit: contain; display: block; }
+.dh .co .n { font-weight: 700; font-size: 13pt; }
+.dh .co .s { font-size: 9.5pt; color: #333; white-space: pre-line; }
+.dh .dt { text-align: right; }
+.dh .dt .t { font-family: var(--f-head); font-size: 17pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.1; }
+.dh .dt .m { font-size: 10pt; margin-top: 2px; }
+.boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.box { border: 1px solid #999; padding: 8px 10px; }
+.box h4 { margin: 0 0 4px; font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.08em; color: #444; }
+.box .r { display: flex; gap: 6px; }
+.box .r span:first-child { color: #555; min-width: 90px; }
+.box .r span:last-child { font-weight: 600; }
+.complaint { border: 1px solid #999; padding: 8px 10px; margin-bottom: 12px; white-space: pre-wrap; }
+.complaint h4 { margin: 0 0 4px; font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.08em; color: #444; }
+table.dt { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+table.dt th { text-align: left; font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.05em; background: #ececec; padding: 5px 8px; border: 1px solid #999; }
+table.dt td { padding: 5px 8px; border: 1px solid #bbb; vertical-align: top; }
+table.dt .n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+table.dt tr.sub td { background: #f6f6f6; font-weight: 700; }
+table.dt tr.sec td { background: #fafafa; font-weight: 700; text-transform: uppercase; font-size: 8.5pt; letter-spacing: 0.06em; }
+table.tt { margin-left: auto; width: 62%; border-collapse: collapse; margin-bottom: 14px; }
+table.tt td { padding: 4px 8px; }
+table.tt td:last-child { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.tt tr.g td { border-top: 2px solid #000; font-size: 13pt; font-weight: 700; padding-top: 6px; }
+.dnotes { margin-bottom: 14px; white-space: pre-wrap; font-size: 9.5pt; }
+.sign { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 36px; }
+.sign div { border-top: 1px solid #000; padding-top: 4px; font-size: 9pt; color: #333; }
+
+@media screen and (max-width: 900px) {
+  .authwrap { grid-template-columns: 1fr; min-height: 0; }
+  .hero { padding: 26px 22px 28px; gap: 16px; }
+  .hero h1 { font-size: 2.3rem; margin-top: 4px; }
+  .hero ul, .mock { display: none; }
+  .formside { padding: 22px 16px 40px; align-items: flex-start; }
+}
+@media screen and (max-width: 800px) {
+  html, body { overflow-x: hidden; }
+  .top { padding: 8px 14px 0; gap: 4px 10px; }
+  .brand { font-size: 1.15rem; }
+  .brand svg { width: 26px; height: 26px; }
+  .svc { margin-right: 0; flex: 1; min-width: 0; text-align: center; }
+  .sync { display: none; }
+  .sync.err { display: inline; }
+  .top nav { flex: 0 0 100%; justify-content: space-between; margin: 0 -6px; }
+  .top nav button { min-height: 44px; padding: 0 8px; font-size: 0.86rem; white-space: nowrap; }
+  .top nav button.cta { margin: 0; min-height: 34px; }
+  main { padding: 16px 14px 60px; }
+  .stats { grid-template-columns: 1fr; }
+  .f, .f.w2, .f.w4, .f.w6 { grid-column: span 6; }
+  .lhead { display: none; }
+  .lrow { grid-template-columns: 1fr 1fr; }
+  .lrow input[data-k="desc"] { grid-column: span 2; }
+}
+@media print {
+  body { background: #fff; }
+  .noprint { display: none !important; }
+  main { padding: 0; max-width: none; }
+  .paper { box-shadow: none; width: auto; padding: 0; margin: 0; }
+  @page { size: A4; margin: 12mm; }
+}
+
+/* ===== Aspect premium ===== */
+:root { --bg: #ecebe7; --line: #e3e1dc; --gold: #f0a04b; --shadow: 0 1px 2px rgba(21,24,29,.06), 0 8px 24px rgba(21,24,29,.06); }
+body { background: radial-gradient(1200px 500px at 50% -200px, #f8f6f1, var(--bg)); -webkit-font-smoothing: antialiased; }
+.top { background: linear-gradient(180deg, #1d2128, #12151a); border-bottom: 2px solid var(--accent); box-shadow: 0 4px 18px rgba(0,0,0,.18); }
+.top nav button.on { border-bottom-color: var(--gold); }
+.top nav button.cta { background: linear-gradient(180deg, #f07a1f, #e4690c); border-radius: 8px; box-shadow: 0 2px 8px rgba(228,105,12,.35); }
+.svc { background: rgba(255,255,255,.06); border-color: #3a424e; }
+main { max-width: 1100px; }
+h2 { letter-spacing: .05em; }
+.card { border-radius: 14px; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 20px 22px; }
+.card h3 { display: flex; align-items: center; gap: 10px; color: #3d4551; }
+.card h3::before { content: ""; width: 4px; height: 16px; border-radius: 2px; background: var(--accent); }
+input, select, textarea { border-radius: 8px; border-color: #d2d5da; padding: 10px 12px; transition: border-color .15s, box-shadow .15s; }
+input:focus, select:focus, textarea:focus { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(228,105,12,.18); }
+textarea.tall { min-height: 130px; }
+.btn { border-radius: 8px; background: linear-gradient(180deg, #f07a1f, #e4690c); box-shadow: 0 2px 6px rgba(228,105,12,.3); transition: transform .1s, box-shadow .15s; }
+.btn:hover:not(:disabled) { background: linear-gradient(180deg, #f58a35, #e87414); transform: translateY(-1px); }
+.btn.sec { background: #fff; box-shadow: none; border-color: #cfd3d9; }
+.btn.sec:hover { background: #f6f5f2; transform: none; }
+.btn.danger { background: #fff; box-shadow: none; }
+.pill { letter-spacing: .02em; }
+.stat { border-radius: 14px; border: 1px solid var(--line); border-top: 3px solid var(--accent); box-shadow: var(--shadow); padding: 14px 18px; }
+.stat b { font-size: 2.2rem; }
+table.list { border-radius: 14px; box-shadow: var(--shadow); border-color: var(--line); }
+table.list th { background: #f7f6f3; padding: 12px; }
+table.list td { padding: 13px 12px; }
+table.list tr.row:hover td { background: #fff6ee; }
+.emptybox { border-radius: 14px; }
+.ehead { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; box-shadow: var(--shadow); }
+.livetotal { text-align: right; line-height: 1.1; }
+.livetotal span { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.livetotal b { font-family: var(--f-head); font-size: 1.7rem; color: var(--accent-d); font-variant-numeric: tabular-nums; }
+.totals .grand { border-top: 2px solid var(--accent); color: var(--ink); }
+.actions { margin-top: 6px; }
+.seg { border-radius: 8px; }
+.authbox { border-radius: 16px; }
+
+/* ===== Document premium ===== */
+.paper { border-radius: 4px; border-top: 6px solid var(--accent); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.paper * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.dh { border-bottom: 1px solid #cfcfcf; padding-bottom: 10px; margin-bottom: 10px; }
+.dh .dt .t { font-size: 19pt; color: var(--graphite); display: inline-block; padding-bottom: 3px; border-bottom: 3px solid var(--accent); }
+.dh .dt .m { margin-top: 5px; color: #444; letter-spacing: .03em; }
+.dh .co .n { font-size: 14pt; letter-spacing: .02em; }
+.boxes { gap: 8px; margin-bottom: 8px; }
+.box { border: 1px solid #d4d4d4; border-left: 3px solid var(--graphite); padding: 6px 10px; border-radius: 2px; }
+.box .r span:first-child { min-width: 84px; }
+.plate { display: inline-block; font-family: var(--f-mono); font-weight: 600; font-size: 13pt; letter-spacing: .1em; border: 2px solid #000; border-radius: 4px; padding: 0 10px 0 30px; margin: 2px 0 4px; background: linear-gradient(90deg, var(--blue) 0 22px, #fff 22px); }
+.cf { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 8px; }
+.cf.two { grid-template-columns: 1fr 1fr; }
+.complaint { margin-bottom: 0; border: 1px solid #d4d4d4; border-radius: 2px; }
+table.dt { margin-bottom: 8px; }
+table.dt th { background: var(--graphite); color: #fff; border-color: var(--graphite); font-size: 8pt; line-height: 1.25; }
+table.dt td { border-color: #d9d9d9; }
+table.dt tr:not(.sec):nth-child(even) td { background: #fafaf8; }
+table.dt tr.sec td { background: #efeeea; color: #333; padding-top: 3px; padding-bottom: 3px; }
+table.dt .n.b { font-weight: 700; }
+table.dt thead { display: table-header-group; }
+table.dt tr, .foot, .sign { break-inside: avoid; page-break-inside: avoid; }
+.foot { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 4px; }
+.foot .fl { flex: 1; min-width: 0; }
+table.tt { width: 320px; margin: 0; flex: none; border-collapse: collapse; }
+table.tt td { padding: 3px 8px; }
+table.tt tr.g td { background: var(--graphite); color: #fff; border-top: 0; font-size: 12.5pt; padding: 7px 10px; }
+table.tt tr.g td:first-child small { display: block; font-size: 7pt; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: #cfd3d9; }
+table.tt tr.g td:last-child { color: var(--gold); }
+.strip { border-left: 3px solid var(--accent); background: #f6f5f2; padding: 5px 10px; font-size: 8.5pt; white-space: pre-line; color: #333; margin-bottom: 6px; }
+.dnotes { font-size: 8.5pt; margin-bottom: 6px; }
+.sign { margin-top: 26px; }
+.paper.c1 { font-size: 9.5pt; padding: 11mm; }
+.paper.c1 table.dt td, .paper.c1 table.dt th { padding: 3px 6px; }
+.paper.c1 .sign { margin-top: 18px; }
+.paper.c2 { font-size: 8.5pt; padding: 9mm; line-height: 1.3; }
+.paper.c2 table.dt td, .paper.c2 table.dt th { padding: 2px 5px; }
+.paper.c2 .sign { margin-top: 12px; }
+.paper.c2 .plate { font-size: 11pt; }
+.paper.c2 .dh .dt .t { font-size: 15pt; }
+@media screen and (max-width: 800px) {
+  .ehead { padding: 10px 12px; }
+  .card { padding: 16px 14px; }
+}
+@media print {
+  .paper { border-top: 0; border-radius: 0; }
+  .paper.c1, .paper.c2 { padding: 0; }
+}
+
+/* ===== Stări, plăți, panou, istoric, căutare, prezentare, temă ===== */
+.pill.st-waiting { background: #fff0d6; color: #8a5a00; }
+.pill.st-working { background: #e3ecff; color: #1d4ba8; }
+.pill.st-ready { background: #def1e6; color: #1d6b43; }
+.pill.st-done { background: #ececea; color: #555; }
+.pill.pay-paid { background: #def1e6; color: #1d6b43; }
+.pill.pay-partial { background: #fff0d6; color: #8a5a00; }
+.pill.pay-unpaid { background: #fbe3e1; color: #a12a24; }
+.stp { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; }
+.stages { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { border: 1px solid #cfd3d9; background: #fff; color: var(--ink); border-radius: 999px; padding: 7px 14px; font-weight: 500; font-size: .9rem; }
+.chip:hover { border-color: #aab0b9; }
+.chip.on.st-waiting { background: #b87000; border-color: #b87000; color: #fff; }
+.chip.on.st-working { background: #1d4ba8; border-color: #1d4ba8; color: #fff; }
+.chip.on.st-ready { background: #1d7a4b; border-color: #1d7a4b; color: #fff; }
+.chip.on.st-done { background: #4a4f57; border-color: #4a4f57; color: #fff; }
+.paybox { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.paybox select { width: auto; }
+.paybox input { width: 120px; }
+.payrest { font-weight: 600; font-variant-numeric: tabular-nums; }
+table.tt tr.rest td { font-weight: 700; padding-top: 5px; }
+
+.stats.k4 { grid-template-columns: repeat(4, 1fr); }
+.dgrid { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+.dgrid .card { margin-bottom: 0; }
+.dgrid + .dgrid, .card + .dgrid { margin-top: 14px; }
+.dgrid.two { margin-bottom: 14px; }
+.chart { display: flex; gap: 12px; align-items: stretch; height: 220px; padding-top: 6px; }
+.mbar { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.mval { font-size: .72rem; color: var(--muted); height: 16px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.mcol { flex: 1; width: 100%; max-width: 72px; display: flex; flex-direction: column; justify-content: flex-end; border-radius: 8px 8px 0 0; overflow: hidden; background: rgba(120,120,120,.07); }
+.mcol i { display: block; width: 100%; }
+.mcol i.paid, .legend i.paid { background: linear-gradient(180deg, #f07a1f, #e4690c); }
+.mcol i.rest, .legend i.rest { background: repeating-linear-gradient(45deg, #cfd3d9 0 4px, #e6e8ec 4px 8px); }
+.mlab { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.legend { display: flex; gap: 18px; margin-top: 10px; font-size: .82rem; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.dl { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+.dl:last-child { border-bottom: 0; }
+.dl:hover:not(.static) { background: rgba(228,105,12,.06); }
+.dl.static { cursor: default; }
+.dl .grow { flex: 1; min-width: 0; }
+.dl .grow b, .dl .grow small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dl small { color: var(--muted); font-size: .8rem; }
+.carhead { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.carhead .cc { text-align: right; }
+.visit { cursor: pointer; border-left: 4px solid var(--accent); margin-bottom: 12px; }
+.visit:hover { box-shadow: 0 2px 4px rgba(21,24,29,.08), 0 12px 28px rgba(21,24,29,.1); }
+.vh { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+.vt { font-variant-numeric: tabular-nums; font-size: 1.05rem; }
+.vc { font-size: .9rem; color: var(--ink); margin-top: 3px; }
+.vc span { color: var(--muted); }
+
+.pal { position: fixed; inset: 0; background: rgba(10,12,16,.55); backdrop-filter: blur(3px); z-index: 50; display: flex; justify-content: center; align-items: flex-start; padding: 12vh 16px 0; }
+.palbox { background: var(--card); width: min(660px, 100%); border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,.4); overflow: hidden; }
+.palbox input { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 18px 20px; font-size: 1.05rem; box-shadow: none !important; background: transparent; }
+#palres { max-height: 50vh; overflow: auto; padding-bottom: 6px; }
+.palh { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); padding: 12px 20px 4px; }
+.palit { display: flex; gap: 10px; align-items: center; padding: 10px 20px; cursor: pointer; }
+.palit.on { background: rgba(228,105,12,.12); }
+.palit .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.palit small { color: var(--muted); }
+.palhint { font-size: .75rem; color: var(--muted); padding: 10px 20px; border-top: 1px solid var(--line); }
+
+.fab { position: fixed; right: 16px; bottom: 16px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); color: var(--ink); box-shadow: var(--shadow); z-index: 40; font-size: 1.15rem; }
+.fab:hover { border-color: var(--accent); }
+.trial { background: #e3ecff; color: #1d4ba8; border-radius: 10px; padding: 9px 14px; margin-bottom: 14px; font-weight: 500; }
+.trial.warn { background: #fff0d6; color: #8a5a00; }
+
+.land { max-width: 1100px; margin: 0 auto; padding: 64px 24px 80px; }
+.land h2 { text-align: center; font-size: 2.2rem; margin-bottom: 6px; }
+.lsub { text-align: center; color: var(--muted); margin: 0 0 30px; }
+.lgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.lcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); border-top: 3px solid var(--accent); }
+.lcard b { display: block; font-family: var(--f-head); font-size: 1.25rem; letter-spacing: .03em; text-transform: uppercase; margin-bottom: 6px; }
+.lcard p { margin: 0; color: var(--muted); }
+.lsteps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
+.lsteps div { display: flex; flex-direction: column; gap: 2px; padding-left: 52px; position: relative; }
+.lsteps i { position: absolute; left: 0; top: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--graphite); color: #fff; font-style: normal; display: flex; align-items: center; justify-content: center; font-family: var(--f-head); font-size: 1.2rem; }
+.lsteps span { color: var(--muted); }
+.lcta { text-align: center; margin-top: 34px; }
+.lcta .btn { padding: 13px 34px; font-size: 1.05rem; }
+
+@media screen and (max-width: 800px) {
+  .stats.k4 { grid-template-columns: 1fr 1fr; }
+  .dgrid { grid-template-columns: 1fr; }
+  .lgrid, .lsteps { grid-template-columns: 1fr; }
+  .carhead .cc { text-align: left; }
+  .land { padding: 40px 16px 70px; }
+  .land h2 { font-size: 1.8rem; }
+  .chart { height: 190px; gap: 6px; }
+  .pal { padding-top: 8vh; }
+}
+
+/* ----- Mod întunecat (documentul rămâne alb) ----- */
+html[data-theme="dark"] { --bg: #0f1216; --card: #181c22; --ink: #e9ebee; --muted: #98a1ad; --line: #2a303a; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark; }
+html[data-theme="dark"] body { background: radial-gradient(1200px 500px at 50% -200px, #1a1f27, var(--bg)); }
+html[data-theme="dark"] .card h3 { color: #aab2bd; }
+html[data-theme="dark"] input, html[data-theme="dark"] select, html[data-theme="dark"] textarea { background: #11151a; color: var(--ink); border-color: #323946; }
+html[data-theme="dark"] input.plate-input { color: #15181d; border-color: #e9ebee; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffd23f' d='M12 3l2.4 5.2 5.6.6-4.2 3.8 1.2 5.6L12 15.4 7 18.2l1.2-5.6L4 8.8l5.6-.6z'/%3E%3C/svg%3E") no-repeat 9px center / 17px, linear-gradient(90deg, var(--blue) 0 34px, #fff 34px); }
+html[data-theme="dark"] .btn.sec, html[data-theme="dark"] .btn.danger, html[data-theme="dark"] .chip { background: #1f242c; color: var(--ink); border-color: #38404c; }
+html[data-theme="dark"] .btn.danger { color: #ff9d97; }
+html[data-theme="dark"] .btn.sec:hover { background: #262c35; }
+html[data-theme="dark"] .seg { border-color: #38404c; }
+html[data-theme="dark"] .seg button { background: #1f242c; color: var(--ink); }
+html[data-theme="dark"] .seg button.on { background: var(--accent); color: #15181d; }
+html[data-theme="dark"] table.list { border-color: var(--line); }
+html[data-theme="dark"] table.list th { background: #1d222a; }
+html[data-theme="dark"] table.list td { border-bottom-color: var(--line); }
+html[data-theme="dark"] table.list tr.row:hover td { background: #222831; }
+html[data-theme="dark"] .plt { color: #15181d; }
+html[data-theme="dark"] .pill.st-waiting, html[data-theme="dark"] .pill.pay-partial { background: #3a2c10; color: #f3c067; }
+html[data-theme="dark"] .pill.st-working { background: #1b2a4a; color: #8fb0f5; }
+html[data-theme="dark"] .pill.st-ready, html[data-theme="dark"] .pill.pay-paid { background: #163325; color: #7fd4a4; }
+html[data-theme="dark"] .pill.st-done { background: #2a2f37; color: #b6bcc6; }
+html[data-theme="dark"] .pill.pay-unpaid { background: #3b1d1b; color: #ff9d97; }
+html[data-theme="dark"] .notice { background: #3a2c10; border-color: #5a4318; color: #f3c067; }
+html[data-theme="dark"] .notice.err { background: #3b1d1b; border-color: #5c2a27; color: #ff9d97; }
+html[data-theme="dark"] .notice.ok { background: #163325; border-color: #24543b; color: #7fd4a4; }
+html[data-theme="dark"] .trial { background: #1b2a4a; color: #8fb0f5; }
+html[data-theme="dark"] .trial.warn { background: #3a2c10; color: #f3c067; }
+html[data-theme="dark"] .emptybox { border-color: #38404c; }
+html[data-theme="dark"] .x:hover { background: #3b1d1b; }
+html[data-theme="dark"] .livetotal b { color: var(--gold); }
+html[data-theme="dark"] .mcol { background: rgba(255,255,255,.05); }
+html[data-theme="dark"] .mcol i.rest, html[data-theme="dark"] .legend i.rest { background: repeating-linear-gradient(45deg, #3a414d 0 4px, #2a303a 4px 8px); }
+html[data-theme="dark"] .lsteps i { background: var(--accent); color: #15181d; }
+html[data-theme="dark"] .hint b { color: var(--ink); }
+html[data-theme="dark"] .paper { color: #000; }
+
+/* ===== Document: fără fonduri negre (se văd prin foaie), layout de telefon ===== */
+table.dt th { background: #f1f0ec; color: #1b1f24; border: 1px solid #b9b7b0; border-bottom: 2px solid #1b1f24; }
+table.tt tr.g td { background: #fff; color: #111; border-top: 2px solid #1b1f24; border-bottom: 2px solid #1b1f24; font-size: 12pt; padding: 6px 8px; white-space: nowrap; }
+table.tt tr.g td:first-child small { color: #555; }
+table.tt tr.g td:last-child { color: #111; }
+.box { border-left-color: #555; }
+.cf.two { grid-template-columns: 1fr 1fr; }
+.foot { flex-direction: row; }
+@media print {
+  .cf.two { grid-template-columns: 1fr 1fr !important; }
+  .boxes { grid-template-columns: 1fr 1fr !important; }
+  .foot { flex-direction: row !important; }
+  table.tt { width: 320px !important; }
+  html, body, html[data-theme="dark"] body { background: #fff !important; }
+  .fab { display: none !important; }
+}
+
+.paper.mob { padding: 10px 9px 12px; font-size: 10px; line-height: 1.35; border-top-width: 4px; box-shadow: 0 1px 6px rgba(0,0,0,.15); overflow: hidden; }
+.paper.mob .dh { flex-wrap: wrap; gap: 8px 12px; }
+.paper.mob .dh .co { gap: 8px; min-width: 0; flex: 1 1 100%; }
+.paper.mob .dh .co img { max-height: 44px; max-width: 70px; }
+.paper.mob .dh .co .n { font-size: 12.5px; }
+.paper.mob .dh .co .s { font-size: 9px; overflow-wrap: anywhere; }
+.paper.mob .dh .dt { flex: 1 1 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; text-align: left; }
+.paper.mob .dh .dt .t { font-size: 15px; padding-bottom: 2px; border-bottom-width: 2px; }
+.paper.mob .dh .dt .m { margin-top: 0; font-size: 9.5px; text-align: right; white-space: nowrap; }
+.paper.mob .boxes { grid-template-columns: 1fr; gap: 6px; }
+.paper.mob .box { padding: 5px 8px; min-width: 0; }
+.paper.mob .box .r span:first-child { min-width: 78px; }
+.paper.mob .box .r span:last-child { min-width: 0; overflow-wrap: anywhere; }
+.paper.mob .box h4, .paper.mob .complaint h4 { font-size: 7.5px; margin-bottom: 3px; }
+.paper.mob .plate { font-size: 12px; padding: 0 8px 0 26px; }
+.paper.mob .cf.two { grid-template-columns: 1fr; }
+.paper.mob .complaint { padding: 5px 8px; }
+.paper.mob table.dt { table-layout: fixed; width: 100%; }
+.paper.mob table.dt th, .paper.mob table.dt td { padding: 3px 2px; font-size: 9.5px; overflow-wrap: anywhere; }
+.paper.mob table.dt th { font-size: 6.5px; letter-spacing: 0; }
+.paper.mob table.dt td.n { font-size: 9px; letter-spacing: -.1px; }
+.paper.mob table.dt tr.sec td { font-size: 8px; }
+.paper.mob table.dt.v7 th:nth-child(1), .paper.mob table.dt.v5 th:nth-child(1) { width: 20px !important; }
+.paper.mob table.dt.v7 th:nth-child(3), .paper.mob table.dt.v5 th:nth-child(3) { width: 24px !important; }
+.paper.mob table.dt.v7 th:nth-child(4) { width: 46px !important; }
+.paper.mob table.dt.v7 th:nth-child(5) { width: 50px !important; }
+.paper.mob table.dt.v7 th:nth-child(6) { width: 40px !important; }
+.paper.mob table.dt.v7 th:nth-child(7) { width: 54px !important; }
+.paper.mob table.dt.v5 th:nth-child(4) { width: 56px !important; }
+.paper.mob table.dt.v5 th:nth-child(5) { width: 64px !important; }
+.paper.mob .foot { flex-direction: column; gap: 6px; }
+.paper.mob table.tt { width: 100%; }
+.paper.mob table.tt td { padding: 3px 6px; }
+.paper.mob table.tt tr.g td { font-size: 13px; padding: 5px 6px; }
+.paper.mob .strip { font-size: 9px; }
+.paper.mob .sign { gap: 12px; margin-top: 16px; }
+.paper.mob .sign div { font-size: 8px; }
+
+/* ===== Căutare și temă în antet ===== */
+.svc { margin-right: 0; }
+.top nav { margin-left: auto; }
+.tools { display: flex; align-items: center; gap: 8px; }
+.tbtn { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 11px; border-radius: 9px; border: 1px solid #3a424e; background: rgba(255,255,255,.07); color: #d3d9e2; font: inherit; font-size: .88rem; cursor: pointer; }
+.tbtn:hover { color: #fff; border-color: var(--accent); background: rgba(255,255,255,.12); }
+.tbtn svg { flex: none; display: block; }
+.tbtn kbd { font: 500 .7rem var(--f-mono); color: #98a1ad; border: 1px solid #3a424e; border-radius: 5px; padding: 1px 5px; }
+.tsearch { min-width: 120px; }
+.tsearch .tl { flex: 1; text-align: left; color: #aeb6c2; }
+@media screen and (max-width: 800px) {
+  .top nav { margin-left: 0; }
+  .tsearch { min-width: 0; padding: 0 10px; }
+  .tsearch .tl, .tsearch kbd { display: none; }
+  .tools { gap: 6px; }
+}
+
+@media screen and (max-width: 800px) {
+  .brand { font-size: 1.02rem; letter-spacing: .06em; gap: 8px; }
+  .brand svg { width: 24px; height: 24px; }
+  table.list, table.list tbody { display: block; }
+  table.list thead { display: none; }
+  table.list tr.row { display: grid; grid-template-columns: auto 1fr auto; gap: 3px 10px; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  table.list td { display: block; padding: 0; border: 0; min-width: 0; }
+  table.list td:nth-child(3) { grid-column: 1; grid-row: 1; }
+  table.list td:nth-child(1) { grid-column: 2; grid-row: 1; color: var(--muted); font-size: .85rem; }
+  table.list td:nth-child(7) { grid-column: 3; grid-row: 1; justify-self: end; }
+  table.list td:nth-child(4) { grid-column: 1 / span 3; grid-row: 2; font-weight: 600; margin-top: 4px; }
+  table.list td:nth-child(5) { grid-column: 1 / span 3; grid-row: 3; color: var(--muted); font-size: .9rem; }
+  table.list td:nth-child(2) { grid-column: 1 / span 2; grid-row: 4; color: var(--muted); font-size: .8rem; margin-top: 4px; }
+  table.list td:nth-child(6) { grid-column: 3; grid-row: 4; justify-self: end; font-weight: 700; margin-top: 4px; }
+  table.list td:nth-child(8) { grid-column: 1 / span 3; grid-row: 5; margin-top: 4px; }
+  table.list td:nth-child(8):empty { display: none; }
+}
+
+/* ===== Achiziție, adaos, profit ===== */
+#lines.pv .lhead, #lines.pv .lrow { grid-template-columns: 116px minmax(0, 1fr) 62px 92px 78px 96px 112px 34px; }
+#lines.pv .lhead span:nth-child(n+3):nth-child(-n+7), #lines.pv .lrow input[data-k="cost"], #lines.pv .lrow input[data-k="adaos"] { text-align: right; }
+.lrow .ltot { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.15; }
+.lrow .ltot small.lp { font-size: .7rem; font-weight: 600; color: var(--ok); }
+.lrow .ltot small.lp.neg { color: var(--danger); }
+.pbox { margin-top: 14px; border: 1px dashed var(--ok); background: #eef8f2; border-radius: 12px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 26px; align-items: center; }
+.pbox[hidden] { display: none; }
+.pbox .lock { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ok); font-weight: 700; width: 100%; }
+.pbox b { font-size: 1.35rem; color: var(--ok); font-variant-numeric: tabular-nums; }
+.pbox .l { display: block; font-size: .75rem; color: var(--muted); }
+.pbox.neg { border-color: var(--danger); background: #fbeceb; }
+.pbox.neg .lock, .pbox.neg b:first-of-type { color: var(--danger); }
+html[data-theme="dark"] .pbox { background: #12281e; }
+html[data-theme="dark"] .pbox.neg { background: #33191a; }
+@media screen and (max-width: 800px) {
+  #lines.pv .lrow { grid-template-columns: 1fr 1fr 1fr; }
+  #lines.pv .lrow input[data-k="desc"] { grid-column: span 3; }
+  #lines.pv .lrow .ltot { align-items: flex-start; grid-column: span 2; }
+  #lines.pv .lrow select[data-k="type"] { order: -2; grid-column: span 2; }
+  #lines.pv .lrow .x { order: -1; justify-self: end; }
+  #lines.pv .lrow { padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+}
+
+.totals .pbox { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px 26px; }
+.totals .pbox > div { display: block; padding: 0; margin: 0; border: 0; }
+.totals .pbox > .lock { width: 100%; }
+
+/* ===== Telefon: câmpuri, dată, zoom iOS; îndrumare spre Setări ===== */
+input[type="date"] { min-width: 0; }
+@media screen and (max-width: 800px) {
+  input, select, textarea { font-size: 16px; }
+  .f.m12 { grid-column: span 12; }
+  input[type="date"] { width: 100%; max-width: 100%; display: block; -webkit-appearance: none; appearance: none; height: 46px; line-height: 1.2; }
+  input[type="date"]::-webkit-date-and-time-value { text-align: left; min-height: 1.2em; }
+  input[type="date"]::-webkit-calendar-picker-indicator { margin-left: auto; }
+  .grid { gap: 10px; }
+  .btn { min-height: 40px; }
+  .paybox select, .paybox input { min-width: 0; }
+  textarea.tall { min-height: 110px; }
+}
+.need { border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(228,105,12,.18); }
+.setupbanner { display: flex; gap: 12px 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; background: #fff4e8; border: 1px solid #f3c79b; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; }
+.setupbanner[hidden] { display: none; }
+.setupbanner .sbt { flex: 1 1 260px; min-width: 0; }
+.setupbanner b { display: block; color: #6b3c0a; }
+.setupbanner span { color: #7a5a32; font-size: .9rem; }
+.top nav button.dot { position: relative; }
+.top nav button.dot::after { content: ""; position: absolute; top: 7px; right: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px #15181d; }
+#setupWelcome { margin-bottom: 14px; }
+html[data-theme="dark"] .setupbanner { background: #2e2112; border-color: #5a4318; }
+html[data-theme="dark"] .setupbanner b { color: #f3c067; }
+html[data-theme="dark"] .setupbanner span { color: #d9bb8a; }
+
+/* ===== Corecturi depășiri pe telefon ===== */
+.card { min-width: 0; }
+.dgrid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.dgrid > .card { min-width: 0; overflow: hidden; }
+.stats.k4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.stat { min-width: 0; }
+.stat b { overflow-wrap: anywhere; font-size: clamp(1.45rem, 6.2vw, 2rem); }
+.carhead > * { min-width: 0; }
+.vh > * { min-width: 0; }
+@media screen and (max-width: 800px) {
+  .dgrid { grid-template-columns: minmax(0, 1fr); }
+  .stats.k4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat { padding: 12px 14px; }
+}
+
+@media screen and (max-width: 380px) {
+  .top nav { margin: 0; }
+  .top nav button { padding: 0 5px; font-size: .8rem; }
+  .top nav button.cta { padding: 0 9px; }
+  .authwrap > *, .hero, .formside { min-width: 0; max-width: 100%; }
+  #s_reg { text-overflow: ellipsis; }
+}
+
+.dangercard { border-color: #e0b4b1; }
+.dangercard h3 { color: #a12a24; }
+html[data-theme="dark"] .dangercard { border-color: #5c2a27; }
+html[data-theme="dark"] .dangercard h3 { color: #ff9d97; }
+#delAccBox { margin-top: 12px; }
+/* PDF pe telefon: containerul html2pdf nu trebuie centrat (altfel documentul se mută în dreapta și se taie) */
+.html2pdf__overlay { left: 0 !important; right: auto !important; width: 100% !important; }
+.html2pdf__container { left: 0 !important; right: auto !important; margin: 0 !important; transform: none !important; }
+</style>
+</head>
+<body>
+<header class="top noprint">
+  <div class="brand" id="brand"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#e4690c"/><path d="M20 16h14c10 0 16 6 16 16s-6 16-16 16H20z" fill="none" stroke="#15181d" stroke-width="8" stroke-linejoin="round"/></svg><span>Devize Service</span></div>
+  <span class="svc" id="svcName" hidden></span>
+  <div class="tools" id="tools" hidden>
+    <button type="button" id="navSearch" class="tbtn tsearch" title="Căutare rapidă" aria-label="Caută"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span class="tl">Caută</span></button>
+    <button type="button" id="themeBtn" class="tbtn" title="Mod luminos / întunecat" aria-label="Schimbă tema"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+  <span class="sync" id="sync" hidden></span>
+  <nav id="nav" hidden>
+    <button type="button" id="navDash">Panou</button>
+    <button type="button" id="navList">Devize</button>
+    <button type="button" id="navNew" class="cta">+ Deviz nou</button>
+    <button type="button" id="navSettings">Setări</button>
+    <button type="button" id="navOut" title="Ieși din cont">Ieși</button>
+  </nav>
+</header>
+
+<main>
+  <div id="trial" class="trial noprint" hidden></div>
+  <div id="setupBanner" class="setupbanner noprint" hidden><div class="sbt"><b>Completează datele service-ului</b><span>Numele, adresa, telefonul, CUI-ul și logo-ul apar în antetul fiecărui deviz. Le completezi o singură dată, în Setări.</span></div><button type="button" class="btn" id="goSetup">Mergi la Setări</button></div>
+  <section id="vSetup" class="noprint" hidden>
+    <div class="card authbox" style="max-width:560px">
+      <h2>Aplicația nu este configurată încă</h2>
+      <p>Deschide fișierul <b>config.js</b> și completează <b>SUPABASE_URL</b> și <b>SUPABASE_ANON_KEY</b> cu valorile din proiectul tău Supabase (Project Settings &rarr; API). Pașii sunt în fișierul README.</p>
+      <p class="hint" id="setupWhy"></p>
+    </div>
+  </section>
+
+  <section id="vLoading" class="noprint" hidden>
+    <div class="center" id="loadMsg">Se încarcă datele…</div>
+    <div class="center" id="loadErr" hidden style="padding-top:0">
+      <div class="notice err" id="loadErrText" style="display:inline-block"></div><br>
+      <button type="button" class="btn" id="loadRetry">Încearcă din nou</button>
+      <button type="button" class="btn sec" id="loadOut">Ieși din cont</button>
+    </div>
+  </section>
+
+  <section id="vAuth" class="noprint" hidden>
+    <div class="authwrap">
+      <aside class="hero">
+        <div class="wm"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#e4690c"/><path d="M20 16h14c10 0 16 6 16 16s-6 16-16 16H20z" fill="none" stroke="#15181d" stroke-width="8" stroke-linejoin="round"/></svg><span>Devize Service</span></div>
+        <h1>Devize de service, <em>gata de tipărit</em></h1>
+        <ul>
+          <li>Deviz și fișă de lucrări cu antetul service-ului tău, pentru tipărit sau PDF.</li>
+          <li>Istoric pe număr de înmatriculare: clientul și mașina se completează singure.</li>
+          <li>TVA calculat automat, cu cota ta, pe fiecare deviz.</li>
+        </ul>
+        <div class="mock" aria-hidden="true">
+          <div class="tag">Exemplu</div>
+          <div class="mh"><b>AUTO RAPID SRL</b><span>Deviz nr. 0042</span></div>
+          <div class="car"><span class="plt"><i>&#9733;</i><b>B 123 ABC</b></span><span>Opel Antara 2.2 CDTI</span></div>
+          <div class="r"><span>Debitmetru aer</span><span>1.450,50</span></div>
+          <div class="r"><span>Manoperă înlocuire</span><span>300,00</span></div>
+          <div class="r"><span>Reducere</span><span>- 50,00</span></div>
+          <div class="t"><span>Total fără TVA</span><span>1.700,50</span></div>
+          <div class="t"><span>TVA 21%</span><span>357,11</span></div>
+          <div class="g"><span>TOTAL DE PLATĂ</span><span>2.057,61 lei</span></div>
+        </div>
+      </aside>
+      <div class="formside">
+        <div class="card authbox">
+          <h2 id="authTitle">Autentificare</h2>
+          <p class="authsub" id="authSub"></p>
+          <div id="authMsg" class="notice" hidden></div>
+          <form id="authForm" novalidate>
+            <div class="f w12" id="fName"><label for="a_name">Numele service-ului</label><input id="a_name" autocomplete="organization"></div>
+            <div class="f w12" id="fPhone"><label for="a_phone">Telefon</label><input id="a_phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="07xx xxx xxx"></div>
+            <div class="f w12" id="fEmail"><label for="a_email">Email</label><input id="a_email" type="email" autocomplete="email"></div>
+            <div class="f w12" id="fPass"><label for="a_pass" id="a_passLabel">Parolă</label><div class="pwrap"><input id="a_pass" type="password" autocomplete="current-password"><button type="button" class="pwbtn" id="pwToggle" aria-label="Arată parola">Arată</button></div></div>
+            <button class="btn" id="authGo" type="submit">Intră în cont</button>
+          </form>
+          <div class="authlinks">
+            <button type="button" class="linkbtn" id="authSwitch">Nu ai cont? Creează unul</button>
+            <button type="button" class="linkbtn" id="authForgot">Ai uitat parola?</button>
+          </div>
+          <p class="authnote">Fiecare service are contul lui. Devizele și clienții unui cont nu se văd din alt cont.</p>
+          <a class="linkbtn" href="#land" style="display:inline-block;margin-top:8px">Vezi ce poate aplicația &darr;</a>
+        </div>
+      </div>
+    </div>
+    <div class="land" id="land">
+      <h2>Tot ce îți trebuie într-un singur loc</h2>
+      <p class="lsub">Făcută pentru service-uri auto: completezi repede, tipărești curat, nu pierzi nimic.</p>
+      <div class="lgrid">
+        <div class="lcard"><b>Devize în câteva secunde</b><p>Scrii numărul auto, iar clientul, marca și modelul se completează singure din vizitele anterioare.</p></div>
+        <div class="lcard"><b>TVA calculat ca la factură</b><p>Preț fără TVA, valoare, TVA și total pe fiecare linie, plus totalurile de la final.</p></div>
+        <div class="lcard"><b>PDF gata de trimis</b><p>Deviz și fișă de lucrări cu antetul service-ului tău, pe o singură pagină A4.</p></div>
+        <div class="lcard"><b>Istoric pe fiecare mașină</b><p>Toate vizitele, piesele și kilometrajul unei mașini, într-un singur ecran.</p></div>
+        <div class="lcard"><b>Stări și încasări</b><p>Vezi ce e în lucru, ce e gata de ridicat și cât mai ai de încasat.</p></div>
+        <div class="lcard"><b>Conturi separate</b><p>Fiecare service își vede doar devizele și clienții lui.</p></div>
+      </div>
+      <div class="lsteps">
+        <div><i>1</i><b>Creează contul</b><span>Durează două minute.</span></div>
+        <div><i>2</i><b>Completează datele service-ului</b><span>Nume, CUI, adresă, logo.</span></div>
+        <div><i>3</i><b>Fă primul deviz</b><span>Apoi îl tipărești sau îl salvezi ca PDF.</span></div>
+      </div>
+      <div class="lcta"><button type="button" class="btn" id="landCta">Creează cont</button></div>
+    </div>
+  </section>
+
+  <section id="vDash" class="noprint" hidden></section>
+  <section id="vCar" class="noprint" hidden></section>
+
+  <section id="vList" class="noprint" hidden>
+    <div class="bar"><h2 style="margin:0">Devize</h2></div>
+    <div id="stats" class="stats" hidden></div>
+    <div class="bar">
+      <input class="grow" id="q" type="search" placeholder="Caută: număr auto, client, telefon, piesă, defecțiune, număr deviz" aria-label="Caută">
+      <select id="statusFilter" style="width:auto" aria-label="Filtru stare">
+        <option value="">Toate</option>
+        <option value="working">În lucru</option>
+        <option value="done">Predat</option>
+        <option value="unpaid">Neîncasate / avans</option>
+      </select>
+    </div>
+    <div id="listBody"></div>
+    <p class="hint" id="histNote"></p>
+  </section>
+
+  <section id="vEdit" class="noprint" hidden></section>
+
+  <section id="vDoc" hidden>
+    <div class="bar noprint">
+      <button type="button" class="btn sec" id="docBack">&larr; Înapoi la deviz</button>
+      <div class="seg" role="group" aria-label="Tip document">
+        <button type="button" id="kDeviz">Deviz</button>
+        <button type="button" id="kFisa">Fișă de lucrări</button>
+      </div>
+      <span class="spacer"></span>
+      <button type="button" class="btn sec" id="doPrint">Tipărește</button>
+      <button type="button" class="btn" id="doPdf">Salvează / trimite PDF</button>
+    </div>
+    <div class="paper" id="paper"></div>
+  </section>
+
+  <section id="vSettings" class="noprint" hidden>
+    <h2>Setări</h2>
+    <div class="notice ok" id="setupWelcome" hidden><b>Bine ai venit!</b> Aici completezi datele service-ului tău: numele, adresa, telefonul, CUI-ul și logo-ul. Apar în antetul fiecărui deviz și se salvează automat. Câmpurile marcate cu portocaliu sunt cele importante.</div>
+    <div class="card">
+      <h3>Datele service-ului (apar pe documente)</h3>
+      <div class="grid">
+        <div class="f w6 m12"><label for="s_name">Numele service-ului / firmei</label><input id="s_name" data-s="name"></div>
+        <div class="f w3"><label for="s_fiscal">CUI</label><input id="s_fiscal" data-s="fiscal"></div>
+        <div class="f w3"><label for="s_reg">Nr. Reg. Comerțului</label><input id="s_reg" data-s="reg" placeholder="J00/000/2020"></div>
+        <div class="f w6 m12"><label for="s_address">Adresa</label><input id="s_address" data-s="address"></div>
+        <div class="f w3 m12"><label for="s_phone">Telefon</label><input id="s_phone" data-s="phone"></div>
+        <div class="f w3 m12"><label for="s_email">Email</label><input id="s_email" data-s="email"></div>
+        <div class="f w3"><label for="s_currency">Moneda</label><input id="s_currency" data-s="currency" placeholder="lei"></div>
+        <div class="f w4 m12">
+          <label for="s_vatMode">TVA la devizele noi</label>
+          <select id="s_vatMode" data-s="vatMode">
+            <option value="none">Fără TVA</option>
+            <option value="excl">Prețurile nu includ TVA (se adaugă)</option>
+            <option value="incl">Prețurile includ TVA</option>
+          </select>
+        </div>
+        <div class="f w2"><label for="s_vatRate">Cota TVA (%)</label><input id="s_vatRate" data-s="vatRate" inputmode="decimal"></div>
+        <div class="f w3"><label for="s_markup">Adaos piese (%)</label><input id="s_markup" data-s="markup" inputmode="decimal" placeholder="20"></div>
+        <div class="f w6">
+          <label for="s_logo">Logo (opțional)</label>
+          <input id="s_logo" type="file" accept="image/*">
+          <div class="hint" id="logoState"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Texte standard de pe documente</h3>
+      <div class="grid">
+        <div class="f w12"><label for="s_noteEstimate">Notă și garanție (apare pe deviz și pe fișa de lucrări)</label><textarea id="s_noteEstimate" data-s="noteEstimate" style="min-height:120px" placeholder="De exemplu: Deviz valabil 7 zile. Garanție 30 de zile pentru manoperă. Piesele au garanția producătorului."></textarea></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Contul tău</h3>
+      <p class="hint" style="margin-top:0">Conectat ca <b id="accEmail"></b></p>
+      <div class="bar" style="margin-bottom:0">
+        <div class="f w4" style="flex:0 0 240px"><label for="newPass">Parolă nouă (minim 8 caractere)</label><input id="newPass" type="password" autocomplete="new-password"></div>
+        <button type="button" class="btn sec" id="doPass" style="align-self:flex-end">Schimbă parola</button>
+        <span class="hint" id="passState" style="align-self:flex-end"></span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Datele tale</h3>
+      <p class="hint" style="margin-top:0">Datele sunt salvate online, în contul tău. Poți descărca oricând o copie, sau importa datele din fișierul vechi (copia de rezervă a versiunii de pe laptop).</p>
+      <div class="bar" style="margin-bottom:0">
+        <button type="button" class="btn" id="doExport">Descarcă toate datele (JSON)</button>
+        <label class="btn sec" style="display:inline-block;cursor:pointer;color:var(--ink);font-size:inherit">Importă din fișierul vechi<input type="file" id="doImport" accept="application/json,.json" hidden></label>
+        <span class="hint" id="importState"></span>
+      </div>
+    </div>
+    <div class="card dangercard">
+      <h3>Șterge contul</h3>
+      <p class="hint" style="margin-top:0">Se șterg definitiv contul, devizele, istoricul mașinilor și setările. Nu se poate anula. Înainte, descarcă o copie a datelor, cu butonul din „Datele tale".</p>
+      <button type="button" class="btn danger" id="delAccOpen">Șterge contul</button>
+      <div id="delAccBox" hidden>
+        <div class="f w12"><label for="delAccInput">Scrie <b>STERGE</b> ca să confirmi</label><input id="delAccInput" autocomplete="off" autocapitalize="characters" placeholder="STERGE"></div>
+        <div class="bar" style="margin:12px 0 0"><button type="button" class="btn danger" id="delAccGo" disabled>Da, șterge definitiv contul</button><button type="button" class="btn sec" id="delAccCancel">Renunță</button></div>
+        <div class="notice err" id="delAccMsg" hidden style="margin:12px 0 0"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="pal" class="pal noprint" hidden><div class="palbox"><input id="palq" placeholder="Caută: număr auto, client, telefon, piesă, număr deviz…" autocomplete="off" aria-label="Căutare rapidă"><div id="palres"></div><div class="palhint">&uarr; &darr; alegi &nbsp;·&nbsp; Enter deschide &nbsp;·&nbsp; Esc închide</div></div></div>
+<button type="button" id="themeFab" class="fab noprint" aria-label="Schimbă tema" title="Mod luminos / întunecat" hidden>&#9680;</button>
+<datalist id="plateList"></datalist>
+<datalist id="descList"></datalist>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var CFG = window.APP_CONFIG || {};
+  var HIST = parseInt(CFG.HISTORY_MONTHS, 10) || 12;
+  var PRODUCT = 'Devize Service';
+  var DEF = {
+    name: 'Numele service-ului', address: '', phone: '', email: '', fiscal: '', reg: '', logo: '', currency: 'lei',
+    vatMode: 'excl', vatRate: '21',
+    noteEstimate: 'Deviz valabil 7 zile. Prețul final poate varia dacă apar defecțiuni suplimentare; acestea se execută doar cu acordul clientului.',
+    markup: '20', warranty: ''
+  };
+  var SMAP = {
+    name: 'name', address: 'address', phone: 'phone', email: 'email', fiscal: 'fiscal', reg: 'reg', logo: 'logo',
+    currency: 'currency', vatMode: 'vat_mode', vatRate: 'vat_rate', noteEstimate: 'note_estimate', markup: 'note_work', warranty: 'warranty'
+  };
+  var S = { settings: Object.assign({}, DEF), orders: [], catalog: {}, packages: [], serviceId: null, email: '' };
+  var sb = null, cur = null, docKind = 'deviz', settingsTimer = null, catTimers = {}, pending = 0, recovery = false, authMode = 'login', session = null;
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function parseNum(s) {
+    var n = parseFloat(String(s == null ? '' : s).replace(/\s/g, '').replace(',', '.'));
+    return isNaN(n) ? 0 : n;
+  }
+  function round2(n) { return Math.round(n * 100) / 100; }
+  function money(n) { return round2(n).toLocaleString('ro-RO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function cur$(n) { return money(n) + ' ' + (S.settings.currency || ''); }
+  function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function today() { return iso(new Date()); }
+  function cutoff() { var d = new Date(); d.setMonth(d.getMonth() - HIST); return iso(d); }
+  function fmtDate(s) { return s ? String(s).split('-').reverse().join('.') : ''; }
+  function pad(n) { return n == null ? '—' : ('0000' + n).slice(-4); }
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16);
+    });
+  }
+  function errMsg(e) { return e && e.message ? e.message : String(e); }
+  function setStatus(text, isErr) {
+    var el = $('sync');
+    el.hidden = !text;
+    el.textContent = text || '';
+    el.className = 'sync' + (isErr ? ' err' : '');
+    el.title = isErr ? 'Apasă pentru a încerca din nou' : '';
+  }
+
+  /* ---------- Conversii bază de date <-> aplicație ---------- */
+  function settingsFromRow(r) {
+    var s = {};
+    Object.keys(SMAP).forEach(function (k) { s[k] = r[SMAP[k]] == null ? DEF[k] : r[SMAP[k]]; });
+    var parts = [];
+    var rawM = String(s.markup == null ? '' : s.markup).trim(), legacy = '';
+    if (!/^\d+([.,]\d+)?$/.test(rawM)) { legacy = rawM; s.markup = DEF.markup; }
+    [s.noteEstimate, legacy, s.warranty].forEach(function (t) {
+      t = String(t || '').trim();
+      if (t && parts.join('\n').indexOf(t) === -1) parts.push(t);
+    });
+    s.noteEstimate = parts.join('\n'); s.warranty = '';
+    return s;
+  }
+  function settingsToRow() {
+    var r = {};
+    Object.keys(SMAP).forEach(function (k) { r[SMAP[k]] = S.settings[k]; });
+    return r;
+  }
+  function orderFromRow(r) {
+    var raw = Array.isArray(r.lines) ? r.lines : [];
+    var meta = raw.filter(function (l) { return l && l.type === 'meta'; })[0] || {};
+    return {
+      id: r.id, no: r.no, date: r.date, status: r.status === 'closed' ? 'closed' : 'open',
+      plate: r.plate || '', make: r.make || '', model: r.model || '', year: r.year || '', vin: r.vin || '', km: r.km || '',
+      client: r.client || '', phone: r.phone || '', address: r.client_address || '', complaint: r.complaint || '', findings: r.findings || '', notes: r.notes || '', discount: r.discount || '',
+      vatMode: r.vat_mode || 'none', vatRate: r.vat_rate || '21',
+      cui: meta.cui || '', recDate: meta.recDate || '', handler: meta.handler || '', handlerPhone: meta.handlerPhone || '',
+      stage: meta.stage || (r.status === 'closed' ? 'done' : 'working'), advance: meta.advance || '', paid: !!meta.paid,
+      lines: raw.filter(function (l) { return !(l && l.type === 'meta'); })
+    };
+  }
+  function orderToRow(o) {
+    return {
+      id: o.id, service_id: S.serviceId, no: o.no, date: o.date || today(), status: (o.stage === 'done' || (!o.stage && o.status === 'closed')) ? 'closed' : 'open',
+      plate: o.plate || '', make: o.make || '', model: o.model || '', year: String(o.year || ''), vin: o.vin || '', km: String(o.km || ''),
+      client: o.client || '', phone: o.phone || '', client_address: o.address || '', complaint: o.complaint || '', findings: o.findings || '', notes: o.notes || '', discount: String(o.discount || ''),
+      vat_mode: o.vatMode || 'none', vat_rate: String(o.vatRate || '21'),
+      lines: (o.lines || []).map(function (l) { return { type: l.type, desc: l.desc, qty: l.qty, price: l.price, cost: l.cost || '' }; }).concat([{ type: 'meta', cui: o.cui || '', recDate: o.recDate || '', handler: o.handler || '', handlerPhone: o.handlerPhone || '', stage: o.stage || '', advance: o.advance || '', paid: !!o.paid }]),
+      updated_at: new Date().toISOString()
+    };
+  }
+
+  /* ---------- Încărcare și salvare în Supabase ---------- */
+  async function loadAll() {
+    var sv = await sb.from('services').select('*').limit(1).maybeSingle();
+    if (sv.error) throw sv.error;
+    if (!sv.data) throw new Error('Contul nu are un servis asociat. Verifică dacă schema SQL a fost rulată înainte de crearea contului.');
+    S.serviceId = sv.data.id;
+    S.settings = settingsFromRow(sv.data);
+    var or = await sb.from('orders').select('*').gte('date', cutoff()).order('no', { ascending: false }).limit(5000);
+    if (or.error) throw or.error;
+    S.orders = (or.data || []).map(orderFromRow);
+    var ct = await sb.from('catalog').select('*');
+    if (ct.error) throw ct.error;
+    S.catalog = {};
+    (ct.data || []).forEach(function (r) { S.catalog[r.key] = { desc: r.name, type: r.type, price: r.price }; });
+    S.packages = [];
+  }
+
+  function queueOrder(o) {
+    o._dirty = true;
+    setStatus('Se salvează…');
+    clearTimeout(o._t);
+    o._t = setTimeout(function () { flushOrder(o); }, 700);
+  }
+  function flushOrder(o) {
+    clearTimeout(o._t);
+    if (o._busy) { o._again = true; return o._p; }
+    o._busy = true; pending++;
+    o._p = (async function () {
+      try {
+        do {
+          o._again = false;
+          if (o.no == null) {
+            if (isEmptyOrder(o)) break;
+            var r = await sb.rpc('next_order_no');
+            if (r.error) throw r.error;
+            o.no = r.data;
+            updateTitle();
+          }
+          var res = await sb.from('orders').upsert(orderToRow(o));
+          if (res.error) throw res.error;
+        } while (o._again);
+        o._dirty = false;
+        setStatus('Salvat');
+      } catch (e) {
+        o._dirty = true;
+        setStatus('Nu s-a salvat: ' + errMsg(e) + ' (apasă pentru a reîncerca)', true);
+      } finally {
+        o._busy = false; pending--;
+      }
+    })();
+    return o._p;
+  }
+  function retrySave() {
+    S.orders.forEach(function (o) { if (o._dirty) flushOrder(o); });
+    queueSettings();
+  }
+  function queueSettings() {
+    setStatus('Se salvează…');
+    clearTimeout(settingsTimer);
+    settingsTimer = setTimeout(async function () {
+      pending++;
+      try {
+        var r = await sb.from('services').update(settingsToRow()).eq('id', S.serviceId);
+        if (r.error) throw r.error;
+        setStatus('Salvat');
+      } catch (e) {
+        setStatus('Nu s-a salvat: ' + errMsg(e) + ' (apasă pentru a reîncerca)', true);
+      } finally { pending--; }
+    }, 700);
+  }
+  function queueCatalog(l) {
+    var key = l.desc.toLowerCase();
+    S.catalog[key] = { desc: l.desc, type: l.type, price: l.price };
+    clearTimeout(catTimers[key]);
+    catTimers[key] = setTimeout(async function () {
+      pending++;
+      try {
+        var r = await sb.from('catalog').upsert({ service_id: S.serviceId, key: key, name: l.desc, type: l.type, price: String(l.price) }, { onConflict: 'service_id,key' });
+        if (r.error) throw r.error;
+      } catch (e) {
+        setStatus('Nu s-a salvat: ' + errMsg(e), true);
+      } finally { pending--; }
+    }, 700);
+  }
+
+  /* ---------- Calcule ---------- */
+  function lineTotal(l) { return round2(parseNum(l.qty) * parseNum(l.price)); }
+  /* Calcul pe linie, ca pe factură: preț unitar fără TVA, valoare fără TVA, TVA, total cu TVA */
+  function lineCalc(l, mode, rate) {
+    var qty = parseNum(l.qty), price = parseNum(l.price), f = 1 + rate / 100;
+    var entered = round2(qty * price), unitNet, net, vat, gross;
+    if (mode === 'excl') {
+      unitNet = price; net = entered; vat = round2(net * rate / 100); gross = round2(net + vat);
+    } else if (mode === 'incl') {
+      gross = entered; net = round2(gross / f); vat = round2(gross - net); unitNet = round2(price / f);
+    } else {
+      unitNet = price; net = entered; vat = 0; gross = entered;
+    }
+    return { entered: entered, unitNet: unitNet, net: net, vat: vat, gross: gross };
+  }
+  function totals(o) {
+    var mode = o.vatMode || 'none', rate = mode === 'none' ? 0 : Math.max(0, parseNum(o.vatRate));
+    var parts = 0, labor = 0, sNet = 0, sVat = 0, sGross = 0;
+    o.lines.forEach(function (l) {
+      var c = lineCalc(l, mode, rate);
+      if (l.type === 'manopera') labor += c.entered; else parts += c.entered;
+      sNet += c.net; sVat += c.vat; sGross += c.gross;
+    });
+    sNet = round2(sNet); sVat = round2(sVat); sGross = round2(sGross);
+    var sub = round2(parts + labor);
+    var disc = round2(Math.min(sub, Math.max(0, parseNum(o.discount))));
+    var net = sNet, vat = sVat, total = sGross;
+    if (disc > 0) {
+      if (mode === 'excl') {
+        net = round2(sNet - disc); vat = round2(net * rate / 100); total = round2(net + vat);
+      } else if (mode === 'incl') {
+        total = round2(sGross - disc); net = round2(total / (1 + rate / 100)); vat = round2(total - net);
+      } else {
+        net = round2(sNet - disc); vat = 0; total = net;
+      }
+    }
+    return { parts: round2(parts), labor: round2(labor), sub: sub, subNet: sNet, disc: disc, net: net, vat: vat, total: total, mode: mode, rate: rate };
+  }
+  function summaryLines(t) {
+    var L = [], r = String(t.rate).replace('.', ',');
+    if (t.parts) L.push(['Piese', t.parts, 0]);
+    if (t.labor) L.push(['Manoperă', t.labor, 0]);
+    if (t.disc) L.push(['Reducere', -t.disc, 0]);
+    if (t.mode === 'excl') {
+      L.push(['Total fără TVA', t.net, 0]);
+      L.push(['TVA ' + r + '%', t.vat, 0]);
+      L.push(['TOTAL DE PLATĂ', t.total, 1]);
+    } else if (t.mode === 'incl') {
+      L.push(['TOTAL DE PLATĂ', t.total, 1]);
+      L.push(['din care TVA ' + r + '%', t.vat, 0]);
+    } else {
+      L.push(['TOTAL', t.total, 1]);
+    }
+    return L;
+  }
+  function isEmptyOrder(o) {
+    if (o._prefill && !o.complaint && !o.findings && !o.notes && !o.lines.some(function (l) { return l.desc || parseNum(l.price); })) return true;
+    if (o.plate || o.client || o.make || o.model || o.complaint || o.findings || o.notes) return false;
+    return !o.lines.some(function (l) { return l.desc || parseNum(l.price); });
+  }
+
+  /* ---------- Navigare ---------- */
+  var VIEWS = ['Setup', 'Loading', 'Auth', 'Dash', 'Car', 'List', 'Edit', 'Doc', 'Settings'];
+  var curView = '';
+  function setupMissing() {
+    var st = S.settings, m = [];
+    if (!st.name || st.name === DEF.name) m.push('name');
+    if (!String(st.address || '').trim()) m.push('address');
+    if (!String(st.phone || '').trim()) m.push('phone');
+    return m;
+  }
+  function updateSetupHints() {
+    var inc = !!S.serviceId && setupMissing().length > 0;
+    var ban = $('setupBanner');
+    if (ban) ban.hidden = !(inc && ['Dash', 'List', 'Edit', 'Doc', 'Car'].indexOf(curView) !== -1);
+    var nb = $('navSettings');
+    if (nb) nb.classList.toggle('dot', inc && curView !== 'Settings');
+  }
+  function show(name) {
+    VIEWS.forEach(function (n) { $('v' + n).hidden = (n !== name); });
+    curView = name;
+    document.body.classList.toggle('is-auth', name === 'Auth');
+    $('navDash').className = name === 'Dash' ? 'on' : '';
+    $('navList').className = name === 'List' ? 'on' : '';
+    $('navSettings').className = name === 'Settings' ? 'on' : '';
+    var fb = $('themeFab'); if (fb) fb.hidden = (name !== 'Auth');
+    updateSetupHints();
+    window.scrollTo(0, 0);
+  }
+  async function leaveEdit() {
+    if (!cur) return;
+    var o = cur; cur = null;
+    clearTimeout(o._t);
+    if (o.no == null && isEmptyOrder(o)) {
+      S.orders = S.orders.filter(function (x) { return x.id !== o.id; });
+      return;
+    }
+    if (o._dirty || o.no == null) await flushOrder(o);
+  }
+  async function goList() { await leaveEdit(); renderList(); show('List'); }
+  async function goSettings() { await leaveEdit(); renderSettings(); show('Settings'); }
+
+  /* ---------- Lista de devize ---------- */
+  function plt(p) { return p ? '<span class="plt"><i>&#9733;</i><b>' + esc(p) + '</b></span>' : ''; }
+  function renderStats() { $('stats').hidden = true; }
+  function renderList() {
+    renderStats();
+    var q = $('q').value.trim();
+    var st = $('statusFilter').value;
+    var rows = (q ? matchOrders(q) : S.orders.filter(function (o) { return o.no != null; })).filter(function (o) {
+      if (st === 'unpaid') return payInfo(o).rest > 0;
+      if (st) return stageOf(o) === st;
+      return true;
+    }).sort(function (a, b) { return b.no - a.no; });
+    var h;
+    if (!S.orders.some(function (o) { return o.no != null; })) {
+      h = '<div class="emptybox"><p>Nu ai niciun deviz încă.</p><button type="button" class="btn" data-new>Creează primul deviz</button></div>';
+    } else if (!rows.length) {
+      h = '<p class="empty">Niciun deviz nu se potrivește căutării.</p>';
+    } else {
+      h = '<table class="list"><thead><tr><th>Nr.</th><th>Data</th><th>Nr. auto</th><th>Mașina</th><th>Client</th><th class="num">Total</th><th>Stare</th><th>Plată</th></tr></thead><tbody>';
+      rows.forEach(function (o) {
+        h += '<tr class="row" data-id="' + esc(o.id) + '" tabindex="0"><td>' + pad(o.no) + '</td><td>' + fmtDate(o.date) + '</td><td>' + plt(o.plate) + '</td><td>' + esc((o.make + ' ' + o.model).trim()) + '</td><td>' + esc(o.client) + '</td><td class="num">' + cur$(totals(o).total) + '</td><td>' + stagePill(o) + '</td><td>' + payBadge(o) + '</td></tr>';
+      });
+      h += '</tbody></table>';
+    }
+    $('listBody').innerHTML = h;
+    $('histNote').textContent = 'Se afișează devizele din ultimele ' + HIST + ' luni.';
+  }
+
+  /* ---------- Deviz: creare și editare ---------- */
+  function newOrder() {
+    return {
+      id: uuid(), no: null, date: today(), status: 'open',
+      plate: '', make: '', model: '', year: '', vin: '', km: '',
+      client: '', phone: '', address: '', cui: '', recDate: today(), handler: '', handlerPhone: '', stage: 'working', advance: '', paid: false, complaint: '', findings: '', notes: '', discount: '',
+      vatMode: S.settings.vatMode || 'none', vatRate: S.settings.vatRate || '21',
+      lines: []
+    };
+  }
+  async function openOrder(id) {
+    await leaveEdit();
+    var o = S.orders.filter(function (x) { return x.id === id; })[0];
+    if (!o) { renderList(); show('List'); return; }
+    cur = o;
+    renderEdit();
+    show('Edit');
+  }
+  async function startNew() {
+    await leaveEdit();
+    var o = newOrder();
+    S.orders.push(o);
+    cur = o;
+    renderEdit();
+    show('Edit');
+    var p = $('e_plate'); if (p) p.focus();
+  }
+  function updateTitle() {
+    var t = $('eTitle');
+    if (t && cur) t.textContent = cur.no == null ? 'Deviz nou' : 'Deviz nr. ' + pad(cur.no);
+  }
+
+  function inp(label, f, cls, extra) {
+    return '<div class="f ' + cls + '"><label for="e_' + f + '">' + label + '</label><input id="e_' + f + '" data-f="' + f + '" value="' + esc(cur[f]) + '" ' + (extra || '') + '></div>';
+  }
+  function renderEdit() {
+    var h = '';
+    h += '<div class="bar ehead"><button type="button" class="btn sec" id="eBack">&larr; Toate devizele</button><h2 style="margin:0 8px" id="eTitle"></h2><span class="pill st-' + stageOf(cur) + '" id="ePill">' + stageLabel(stageOf(cur)) + '</span><span class="spacer"></span><div class="livetotal"><span>Total de plată</span><b id="liveTotal"></b></div></div>';
+    h += '<div class="card"><h3>Stare și plată</h3><div class="stp"><div class="stages" id="stages"></div><div class="paybox" id="payBox"></div></div></div>';
+    h += '<div class="card"><h3>Mașina</h3><div class="grid">';
+    h += inp('Număr auto', 'plate', 'w3 m12', 'class="plate-input" list="plateList" autocomplete="off"');
+    h += inp('Marca', 'make', 'w3', 'autocomplete="off"');
+    h += inp('Modelul', 'model', 'w3', 'autocomplete="off"');
+    h += inp('Anul', 'year', 'w3', 'inputmode="numeric"');
+    h += inp('Serie șasiu (VIN)', 'vin', 'w6 m12', 'style="text-transform:uppercase"');
+    h += inp('Kilometraj', 'km', 'w3', 'inputmode="numeric"');
+    h += inp('Data', 'date', 'w3 m12', 'type="date"');
+    h += '</div><p class="hint" id="plateHint"></p></div>';
+    h += '<div class="card"><h3>Client</h3><div class="grid">';
+    h += inp('Nume client', 'client', 'w4 m12', 'autocomplete="off"');
+    h += inp('Telefon', 'phone', 'w4', 'inputmode="tel"');
+    h += inp('CUI client (dacă e firmă)', 'cui', 'w4', 'autocomplete="off"');
+    h += inp('Adresa clientului', 'address', 'w12', 'autocomplete="off" placeholder="Strada, număr, localitate"');
+    h += inp('Data recepției mașinii', 'recDate', 'w4 m12', 'type="date"');
+    h += inp('Predată de (dacă diferă de client)', 'handler', 'w4 m12', 'autocomplete="off"');
+    h += inp('Telefon persoană care a predat', 'handlerPhone', 'w4 m12', 'inputmode="tel"');
+    h += '</div></div>';
+    h += '<div class="card"><h3>Reclamație și constatări</h3><div class="grid">' +
+      '<div class="f w6 m12"><label for="e_complaint">Ce reclamă clientul</label><textarea class="tall" id="e_complaint" data-f="complaint" placeholder="De exemplu: eroare la motor, pierdere de putere">' + esc(cur.complaint) + '</textarea></div>' +
+      '<div class="f w6 m12"><label for="e_findings">Cele constatate</label><textarea class="tall" id="e_findings" data-f="findings" placeholder="Ce a găsit mecanicul la verificare: defecțiuni, piese uzate, recomandări">' + esc(cur.findings) + '</textarea></div>' +
+      '</div></div>';
+    h += '<div class="card"><h3>Piese și manoperă</h3><div id="lines"></div>';
+    h += '<div class="bar" style="margin:6px 0 0"><button type="button" class="btn sec small" id="addPart">+ Piesă</button><button type="button" class="btn sec small" id="addLabor">+ Manoperă</button><span class="spacer"></span><button type="button" class="btn sec small" id="pvToggle">' + (showProfit ? 'Ascunde achiziția și profitul' : 'Arată achiziția și profitul') + '</button></div>';
+    h += '</div>';
+    h += '<div class="card"><div class="totals" id="totals"></div></div>';
+    h += '<div class="card"><h3>Observații</h3><div class="f w12"><textarea id="e_notes" data-f="notes" aria-label="Observații" placeholder="Opțional. Apare pe documente.">' + esc(cur.notes) + '</textarea></div></div>';
+    h += '<div class="bar actions"><button type="button" class="btn" id="goDeviz">Deviz de tipărit</button><button type="button" class="btn" id="goFisa">Fișă de lucrări</button><span class="spacer"></span><button type="button" class="btn sec" id="dupOrder">Duplică devizul</button><button type="button" class="btn danger" id="delOrder">Șterge devizul</button></div>';
+    $('vEdit').innerHTML = h;
+    updateTitle();
+    renderLines();
+    renderTotals();
+    renderStatePay();
+    refreshLists();
+    updatePlateHint();
+  }
+
+  function renderLines() {
+    var pv = showProfit;
+    $('lines').className = pv ? 'pv' : '';
+    var h = '<div class="lhead"><span>Tip</span><span>Denumire</span><span>Cant.</span>' + (pv ? '<span>Achiziție</span><span>Adaos %</span>' : '') + '<span>Preț unit.</span><span>Total</span><span></span></div>';
+    cur.lines.forEach(function (l, i) {
+      var a = pv ? adaosOf(cur, l) : null;
+      h += '<div class="lrow" data-i="' + i + '">' +
+        '<select data-k="type" aria-label="Tip"><option value="piesa"' + (l.type !== 'manopera' ? ' selected' : '') + '>Piesă</option><option value="manopera"' + (l.type === 'manopera' ? ' selected' : '') + '>Manoperă</option></select>' +
+        '<input data-k="desc" list="descList" autocomplete="off" placeholder="Denumire" aria-label="Denumire" value="' + esc(l.desc) + '">' +
+        '<input data-k="qty" inputmode="decimal" aria-label="Cantitate" value="' + esc(l.qty) + '">' +
+        (pv ? '<input data-k="cost" inputmode="decimal" placeholder="Achiziție" aria-label="Preț de achiziție" value="' + esc(l.cost || '') + '">' +
+              '<input data-k="adaos" inputmode="decimal" placeholder="Adaos" aria-label="Adaos procentual" value="' + (a == null ? '' : esc(String(a))) + '">' : '') +
+        '<input data-k="price" inputmode="decimal" placeholder="Preț unit." aria-label="Preț unitar" value="' + esc(l.price) + '">' +
+        '<div class="ltot"><span id="lt' + i + '">' + money(lineTotal(l)) + '</span>' + (pv ? '<small class="lp' + (lineProfitText(l).indexOf('- ') !== -1 ? ' neg' : '') + '" id="lp' + i + '">' + lineProfitText(l) + '</small>' : '') + '</div>' +
+        '<button type="button" class="x" data-del="' + i + '" title="Șterge linia" aria-label="Șterge linia">&times;</button></div>';
+    });
+    if (!cur.lines.length) h += '<p class="empty">Nicio linie încă. Adaugă o piesă sau o manoperă.</p>';
+    $('lines').innerHTML = h;
+  }
+  function renderTotals() {
+    var vm = cur.vatMode || 'none';
+    $('totals').innerHTML =
+      '<div><span>TVA</span><select id="e_vatMode" data-f="vatMode" aria-label="TVA" style="width:250px"><option value="none"' + (vm === 'none' ? ' selected' : '') + '>Fără TVA</option><option value="excl"' + (vm === 'excl' ? ' selected' : '') + '>Prețurile nu includ TVA</option><option value="incl"' + (vm === 'incl' ? ' selected' : '') + '>Prețurile includ TVA</option></select></div>' +
+      '<div><span>Cota TVA (%)</span><input id="e_vatRate" data-f="vatRate" inputmode="decimal" aria-label="Cota TVA" value="' + esc(cur.vatRate || '') + '"' + (vm === 'none' ? ' disabled' : '') + '></div>' +
+      '<div><span>Reducere</span><input id="e_discount" data-f="discount" inputmode="decimal" aria-label="Reducere" value="' + esc(cur.discount) + '" placeholder="0"></div>' +
+      '<div id="sumRows"></div><div id="profitBox" class="pbox" hidden></div>';
+    refreshTotalsOnly();
+  }
+  function refreshTotalsOnly() {
+    var t = totals(cur), h = '';
+    summaryLines(t).forEach(function (r) {
+      h += '<div' + (r[2] ? ' class="grand"' : '') + '><span>' + r[0] + '</span><span>' + (r[1] < 0 ? '- ' : '') + cur$(Math.abs(r[1])) + '</span></div>';
+    });
+    $('sumRows').innerHTML = h;
+    var lt = $('liveTotal'); if (lt) lt.textContent = cur$(t.total);
+    updatePayText();
+    refreshProfitBox();
+    for (var li = 0; li < cur.lines.length; li++) updateLineExtras(li);
+    var rate = $('e_vatRate');
+    if (rate) rate.disabled = (cur.vatMode || 'none') === 'none';
+  }
+  function refreshLists() {
+    var plates = {}, h = '';
+    S.orders.forEach(function (o) { if (o.plate) plates[o.plate] = 1; });
+    Object.keys(plates).sort().forEach(function (p) { h += '<option value="' + esc(p) + '">'; });
+    $('plateList').innerHTML = h;
+    h = '';
+    Object.keys(S.catalog).sort().forEach(function (k) { h += '<option value="' + esc(S.catalog[k].desc) + '">'; });
+    $('descList').innerHTML = h;
+  }
+  function previous() {
+    if (!cur.plate) return [];
+    return S.orders.filter(function (o) { return o.id !== cur.id && o.no != null && o.plate === cur.plate; }).sort(function (a, b) { return b.no - a.no; });
+  }
+  function updatePlateHint() {
+    var p = previous(), el = $('plateHint');
+    if (!el) return;
+    if (!p.length) { el.innerHTML = ''; return; }
+    var last = p[0];
+    el.innerHTML = 'Mașină cunoscută: <b>' + p.length + (p.length === 1 ? ' vizită anterioară' : ' vizite anterioare') + '</b>. Ultima: ' + fmtDate(last.date) + (last.km ? ', ' + esc(last.km) + ' km' : '') + '. <button type="button" class="linkbtn" data-car="' + esc(cur.plate) + '">Vezi istoricul mașinii</button>';
+  }
+
+  /* ---------- Evenimente în formularul devizului ---------- */
+  function onEditInput(e) {
+    var t = e.target;
+    if (!cur) return;
+    if (t.dataset.f) {
+      var f = t.dataset.f, val = t.value;
+      if (f === 'plate' || f === 'vin') val = val.toUpperCase();
+      cur[f] = val;
+      if (f === 'discount' || f === 'vatMode' || f === 'vatRate') refreshTotalsOnly();
+      if (f === 'advance') updatePayText();
+      queueOrder(cur);
+      return;
+    }
+    var row = t.closest('.lrow');
+    if (row && t.dataset.k) {
+      var i = +row.dataset.i, k = t.dataset.k, ln = cur.lines[i];
+      if (k === 'adaos') {
+        var c0 = parseNum(ln.cost);
+        if (c0 > 0) { ln.price = priceFromCost(c0, parseNum(t.value)); row.querySelector('[data-k="price"]').value = ln.price; }
+      } else if (k === 'cost') {
+        var oldCost = parseNum(ln.cost), mk = markupRate();
+        var wasAuto = !parseNum(ln.price) || Math.abs(parseNum(ln.price) - parseNum(priceFromCost(oldCost, mk))) < 0.01;
+        ln.cost = t.value;
+        var nc = parseNum(ln.cost);
+        if (ln.type !== 'manopera' && nc > 0 && wasAuto) { ln.price = priceFromCost(nc, mk); row.querySelector('[data-k="price"]').value = ln.price; }
+      } else {
+        ln[k] = t.value;
+      }
+      $('lt' + i).textContent = money(lineTotal(ln));
+      refreshTotalsOnly();
+      queueOrder(cur);
+    }
+  }
+  function onEditChange(e) {
+    var t = e.target;
+    if (!cur) return;
+    if (t.id === 'paySel') {
+      if (t.value === 'paid') { cur.paid = true; cur._partial = false; }
+      else if (t.value === 'partial') { cur.paid = false; cur._partial = true; }
+      else { cur.paid = false; cur._partial = false; cur.advance = ''; }
+      renderStatePay(); queueOrder(cur);
+      return;
+    }
+    if (t.dataset.f === 'plate') {
+      cur.plate = t.value.trim().toUpperCase().replace(/\s+/g, ' ');
+      t.value = cur.plate;
+      var p = previous();
+      if (p.length) {
+        var last = p[0];
+        ['client', 'phone', 'address', 'cui', 'make', 'model', 'year', 'vin'].forEach(function (f) {
+          if (!cur[f] && last[f]) { cur[f] = last[f]; var el = $('e_' + f); if (el) el.value = last[f]; }
+        });
+      }
+      updatePlateHint();
+      queueOrder(cur);
+      return;
+    }
+    var row = t.closest('.lrow');
+    if (row && t.dataset.k) {
+      var i = +row.dataset.i, l = cur.lines[i];
+      if (t.dataset.k === 'desc' && l.desc) {
+        var hit = S.catalog[l.desc.toLowerCase()];
+        if (hit && parseNum(l.price) === 0) {
+          l.price = hit.price; l.type = hit.type;
+          row.querySelector('[data-k="price"]').value = l.price;
+          row.querySelector('[data-k="type"]').value = l.type;
+          $('lt' + i).textContent = money(lineTotal(l));
+          refreshTotalsOnly();
+        }
+      }
+      if (l.desc && parseNum(l.price) > 0) { queueCatalog(l); refreshLists(); }
+      queueOrder(cur);
+    }
+  }
+  function addLine(type) {
+    cur.lines.push({ type: type, desc: '', qty: '1', price: '', cost: '' });
+    renderLines(); renderTotals();
+    var rows = $('lines').querySelectorAll('.lrow');
+    rows[rows.length - 1].querySelector('[data-k="desc"]').focus();
+    queueOrder(cur);
+  }
+  async function deleteOrder(o) {
+    clearTimeout(o._t);
+    if (o.no != null) {
+      var r = await sb.from('orders').delete().eq('id', o.id);
+      if (r.error) { alert('Nu s-a putut șterge: ' + errMsg(r.error)); return; }
+    }
+    S.orders = S.orders.filter(function (x) { return x.id !== o.id; });
+    cur = null;
+    renderList(); show('List');
+  }
+  async function duplicateOrder() {
+    var src = cur;
+    await leaveEdit();
+    var o = newOrder();
+    ['plate', 'make', 'model', 'year', 'vin', 'client', 'phone', 'address', 'cui', 'handler', 'handlerPhone', 'complaint', 'findings', 'notes', 'discount', 'vatMode', 'vatRate'].forEach(function (f) { o[f] = src[f]; });
+    o.lines = src.lines.map(function (l) { return { type: l.type, desc: l.desc, qty: l.qty, price: l.price, cost: l.cost || '' }; });
+    S.orders.push(o);
+    cur = o;
+    queueOrder(o);
+    renderEdit();
+    show('Edit');
+  }
+  function onEditClick(e) {
+    var t = e.target.closest('button');
+    if (!t || !cur) return;
+    if (t.dataset.stage) { setStage(t.dataset.stage); return; }
+    if (t.dataset.car !== undefined) { openCar(t.dataset.car); return; }
+    if (t.dataset.del !== undefined) {
+      cur.lines.splice(+t.dataset.del, 1);
+      renderLines(); refreshTotalsOnly(); queueOrder(cur);
+      return;
+    }
+    switch (t.id) {
+      case 'eBack': goList(); break;
+      case 'pvToggle':
+        showProfit = !showProfit;
+        try { localStorage.setItem('dz_profit', showProfit ? '1' : '0'); } catch (err) {}
+        t.textContent = showProfit ? 'Ascunde achiziția și profitul' : 'Arată achiziția și profitul';
+        renderLines(); refreshTotalsOnly();
+        break;
+      case 'addPart': addLine('piesa'); break;
+      case 'addLabor': addLine('manopera'); break;
+      case 'goDeviz': openDoc('deviz'); break;
+      case 'goFisa': openDoc('fisa'); break;
+      case 'toggleStatus':
+        cur.status = cur.status === 'closed' ? 'open' : 'closed';
+        queueOrder(cur); renderEdit(); break;
+      case 'delOrder':
+        if (confirm('Sigur ștergi devizul ' + (cur.no == null ? '' : 'nr. ' + pad(cur.no)) + '? Nu poate fi recuperat.')) deleteOrder(cur);
+        break;
+      case 'dupOrder': duplicateOrder(); break;
+    }
+  }
+
+  /* ---------- Documente de tipărit ---------- */
+  async function openDoc(kind) {
+    docKind = kind;
+    if (cur._dirty || cur.no == null) await flushOrder(cur);
+    renderDoc();
+    show('Doc');
+  }
+  function isNarrow() { return window.innerWidth <= 640; }
+  function row2(a, b) { return b ? '<div class="r"><span>' + a + '</span><span>' + esc(b) + '</span></div>' : ''; }
+  function renderDoc() {
+    var o = cur, s = S.settings, t = totals(o), est = docKind === 'deviz';
+    var vatCols = t.mode !== 'none', cs = vatCols ? 7 : 5;
+    $('kDeviz').className = est ? 'on' : '';
+    $('kFisa').className = est ? '' : 'on';
+    var shown = o.lines.filter(function (l) { return l.desc || parseNum(l.price); });
+    $('paper').className = 'paper' + (shown.length > 20 ? ' c2' : (shown.length > 12 ? ' c1' : '')) + (isNarrow() ? ' mob' : '');
+    var rateTxt = String(t.rate).replace('.', ',');
+
+    var h = '<div class="dh"><div class="co">' + (s.logo ? '<img src="' + esc(s.logo) + '" alt="">' : '') +
+      '<div><div class="n">' + esc(s.name) + '</div><div class="s">' +
+      esc([s.address, s.phone ? 'Tel. ' + s.phone : '', s.email, [s.fiscal ? 'CUI: ' + s.fiscal : '', s.reg ? 'Reg. Com.: ' + s.reg : ''].filter(Boolean).join(' · ')].filter(Boolean).join('\n')) +
+      '</div></div></div><div class="dt"><div class="t">' + (est ? 'Deviz de reparație' : 'Fișă de lucrări') + '</div><div class="m">Nr. ' + pad(o.no) + ' &nbsp;·&nbsp; ' + fmtDate(o.date) + '</div></div></div>';
+
+    h += '<div class="boxes"><div class="box"><h4>Autovehicul</h4>' +
+      (o.plate ? '<div class="plate">' + esc(o.plate) + '</div>' : '') +
+      row2('Marca / model', (o.make + ' ' + o.model).trim()) +
+      row2('An / km', [o.year, o.km ? o.km + ' km' : ''].filter(Boolean).join(' · ')) +
+      row2('Serie șasiu', o.vin) +
+      '</div><div class="box"><h4>Client</h4>' + row2('Nume', o.client) + row2('CUI', o.cui) + row2('Telefon', o.phone) + row2('Adresa', o.address) + row2('Predat de', [o.handler, o.handlerPhone].filter(Boolean).join(', ')) + row2('Recepție', o.recDate ? fmtDate(o.recDate) : '') + '</div></div>';
+
+    if (o.complaint || o.findings) {
+      h += '<div class="cf' + (o.complaint && o.findings ? ' two' : '') + '">' +
+        (o.complaint ? '<div class="complaint"><h4>Defecțiune reclamată</h4>' + esc(o.complaint) + '</div>' : '') +
+        (o.findings ? '<div class="complaint"><h4>Cele constatate</h4>' + esc(o.findings) + '</div>' : '') + '</div>';
+    }
+
+    var n = 0, body = '';
+    [['piesa', 'Piese'], ['manopera', 'Manoperă']].forEach(function (g) {
+      var ls = shown.filter(function (l) { return (l.type === 'manopera' ? 'manopera' : 'piesa') === g[0]; });
+      if (!ls.length) return;
+      body += '<tr class="sec"><td colspan="' + cs + '">' + g[1] + '</td></tr>';
+      ls.forEach(function (l) {
+        n++;
+        var c = lineCalc(l, t.mode, t.rate);
+        body += '<tr><td>' + n + '</td><td>' + esc(l.desc) + '</td><td class="n">' + esc(l.qty) + '</td><td class="n">' + money(c.unitNet) + '</td>' +
+          (vatCols ? '<td class="n">' + money(c.net) + '</td><td class="n">' + money(c.vat) + '</td><td class="n b">' + money(c.gross) + '</td>' : '<td class="n b">' + money(c.net) + '</td>') + '</tr>';
+      });
+    });
+    if (!body) body = '<tr><td colspan="' + cs + '" style="text-align:center;color:#666;padding:14px">Nicio lucrare adăugată.</td></tr>';
+    h += '<table class="dt ' + (vatCols ? 'v7' : 'v5') + '"><thead><tr><th style="width:30px">Nr.</th><th>Denumire</th><th class="n" style="width:48px">Cant.</th>' +
+      (vatCols
+        ? '<th class="n" style="width:84px">Preț unit.<br>fără TVA</th><th class="n" style="width:88px">Valoare<br>fără TVA</th><th class="n" style="width:76px">TVA<br>' + rateTxt + '%</th><th class="n" style="width:92px">Total<br>cu TVA</th>'
+        : '<th class="n" style="width:90px">Preț unit.</th><th class="n" style="width:100px">Total</th>') +
+      '</tr></thead><tbody>' + body + '</tbody></table>';
+
+    var tt = '<table class="tt">';
+    if (t.disc) {
+      tt += '<tr><td>Subtotal' + (vatCols ? ' fără TVA' : '') + '</td><td>' + cur$(t.subNet) + '</td></tr>';
+      tt += '<tr><td>Reducere</td><td>- ' + cur$(round2(t.subNet - t.net)) + '</td></tr>';
+    }
+    if (vatCols) {
+      tt += '<tr><td>Total fără TVA</td><td>' + cur$(t.net) + '</td></tr>';
+      tt += '<tr><td>TVA ' + rateTxt + '%</td><td>' + cur$(t.vat) + '</td></tr>';
+      tt += '<tr class="g"><td>TOTAL DE PLATĂ<small>cu TVA inclus</small></td><td>' + cur$(t.total) + '</td></tr>';
+    } else {
+      tt += '<tr class="g"><td>TOTAL DE PLATĂ</td><td>' + cur$(t.total) + '</td></tr>';
+    }
+    var pi = payInfo(o);
+    if (pi.state === 'partial') {
+      tt += '<tr><td>Avans achitat</td><td>- ' + cur$(pi.paid) + '</td></tr>';
+      tt += '<tr class="rest"><td>Rest de plată</td><td>' + cur$(pi.rest) + '</td></tr>';
+    }
+    tt += '</table>';
+
+    var std = String(s.noteEstimate || '').trim();
+    var left = '';
+    if (o.notes) left += '<div class="dnotes"><b>Observații:</b> ' + esc(o.notes) + '</div>';
+    if (std) left += '<div class="strip">' + esc(std) + '</div>';
+    h += '<div class="foot"><div class="fl">' + left + '</div>' + tt + '</div>';
+    h += '<div class="sign"><div>Executant (semnătura și ștampila)</div><div>' + (est ? 'Client: am luat la cunoștință și sunt de acord cu devizul' : 'Client: am primit autovehiculul și lucrările efectuate') + '</div></div>';
+    $('paper').innerHTML = h;
+  }
+  window.addEventListener('resize', function () {
+    var pp = $('paper');
+    if (pp && !$('vDoc').hidden) pp.classList.toggle('mob', isNarrow());
+  });
+  window.addEventListener('beforeprint', function () { var pp = $('paper'); if (pp) pp.classList.remove('mob'); });
+  window.addEventListener('afterprint', function () { var pp = $('paper'); if (pp && isNarrow()) pp.classList.add('mob'); });
+  function doPrint() {
+    var old = document.title;
+    document.title = (docKind === 'deviz' ? 'Deviz ' : 'Fisa lucrari ') + pad(cur.no) + (cur.plate ? ' ' + cur.plate : '');
+    window.print();
+    setTimeout(function () { document.title = old; }, 500);
+  }
+
+  var pdfLib = null;
+  function loadPdfLib() {
+    if (window.html2pdf) return Promise.resolve();
+    if (pdfLib) return pdfLib;
+    pdfLib = new Promise(function (res, rej) {
+      var sc = document.createElement('script');
+      sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+      sc.onload = res;
+      sc.onerror = function () { pdfLib = null; rej(new Error('lib')); };
+      document.head.appendChild(sc);
+    });
+    return pdfLib;
+  }
+  function isTouch() { return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches); }
+  function docFileName() { return (docKind === 'deviz' ? 'Deviz ' : 'Fisa lucrari ') + pad(cur.no) + (cur.plate ? ' ' + cur.plate : '') + '.pdf'; }
+  async function buildPdf() {
+    var name = docFileName(), host = null;
+    try {
+      await loadPdfLib();
+      host = document.createElement('div');
+      host.style.cssText = 'position:absolute;left:-10000px;top:0;width:210mm;';
+      var clone = $('paper').cloneNode(true);
+      clone.removeAttribute('id');
+      clone.classList.remove('mob');
+      clone.style.cssText = 'width:210mm;max-width:none;margin:0;box-shadow:none;';
+      host.appendChild(clone);
+      document.body.appendChild(host);
+      var blob = await window.html2pdf().set({
+        margin: 0, filename: name,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: 1100, x: 0, y: 0, scrollX: 0, scrollY: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['tr', '.sign', '.box'] }
+      }).from(clone).outputPdf('blob');
+      return { blob: blob, name: name };
+    } finally {
+      if (host) host.remove();
+    }
+  }
+  function downloadBlob(blob, name) {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 5000);
+  }
+  async function doPdf() {
+    var btn = $('doPdf'), label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Se pregătește PDF-ul...';
+    try {
+      var r = await buildPdf();
+      var file = new File([r.blob], r.name, { type: 'application/pdf' });
+      if (isTouch() && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try { await navigator.share({ files: [file], title: r.name }); }
+        catch (e) { if (e && e.name !== 'AbortError') throw e; }
+      } else {
+        downloadBlob(r.blob, r.name);
+      }
+    } catch (err) {
+      alert('Nu am putut crea PDF-ul. Se deschide tipărirea, de unde poți alege „Salvează ca PDF”.');
+      doPrint();
+    } finally {
+      btn.disabled = false; btn.textContent = label;
+    }
+  }
+
+  /* ---------- Setări, cont, export și import ---------- */
+  function renderSettings() {
+    var els = document.querySelectorAll('[data-s]');
+    for (var i = 0; i < els.length; i++) els[i].value = S.settings[els[i].dataset.s] == null ? '' : S.settings[els[i].dataset.s];
+    var miss = setupMissing(), needMap = { name: 's_name', address: 's_address', phone: 's_phone' };
+    Object.keys(needMap).forEach(function (k) { $(needMap[k]).classList.toggle('need', miss.indexOf(k) !== -1); });
+    $('setupWelcome').hidden = miss.length === 0;
+    delAccReset();
+    $('logoState').innerHTML = S.settings.logo ? 'Logo încărcat. <button type="button" class="btn danger small" id="logoDel">Șterge logo</button>' : 'Niciun logo încărcat.';
+    $('accEmail').textContent = S.email;
+    $('passState').textContent = '';
+    $('importState').textContent = '';
+    var d = $('logoDel');
+    if (d) d.onclick = function () { S.settings.logo = ''; queueSettings(); renderSettings(); };
+  }
+  function updateBrand() {
+    var el = $('svcName');
+    el.hidden = !S.serviceId;
+    el.textContent = S.serviceId ? (S.settings.name || '') : '';
+  }
+  function onSettingsInput(e) {
+    var k = e.target.dataset.s;
+    if (!k) return;
+    S.settings[k] = e.target.value;
+    if (k === 'name') updateBrand();
+    if (k === 'name' || k === 'address' || k === 'phone') {
+      var emptyNow = !String(e.target.value || '').trim() || (k === 'name' && e.target.value === DEF.name);
+      e.target.classList.toggle('need', emptyNow);
+    }
+    updateSetupHints();
+    queueSettings();
+  }
+  function onLogo(e) {
+    var f = e.target.files[0];
+    if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var maxW = 400, maxH = 160, r = Math.min(1, maxW / img.width, maxH / img.height);
+        var c = document.createElement('canvas');
+        c.width = Math.round(img.width * r); c.height = Math.round(img.height * r);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        S.settings.logo = c.toDataURL('image/png');
+        queueSettings(); renderSettings();
+      };
+      img.src = rd.result;
+    };
+    rd.readAsDataURL(f);
+    e.target.value = '';
+  }
+  async function changePassword() {
+    var p = $('newPass').value;
+    if (p.length < 8) { $('passState').textContent = 'Parola trebuie să aibă cel puțin 8 caractere.'; return; }
+    var r = await sb.auth.updateUser({ password: p });
+    if (r.error) { $('passState').textContent = authErr(r.error); return; }
+    $('newPass').value = '';
+    $('passState').textContent = 'Parola a fost schimbată.';
+  }
+  function exportData() {
+    var out = { exportedAt: new Date().toISOString(), settings: S.settings, orders: S.orders, catalog: S.catalog };
+    var blob = new Blob([JSON.stringify(out, function (k, v) { return k.charAt(0) === '_' ? undefined : v; }, 1)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'devize-service-' + today() + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+  function importData(e) {
+    var f = e.target.files[0];
+    e.target.value = '';
+    if (!f) return;
+    var rd = new FileReader();
+    rd.onload = async function () {
+      var st = $('importState');
+      try {
+        var o = JSON.parse(rd.result);
+        if (!o || !Array.isArray(o.orders)) throw new Error('Fișierul nu este o copie de rezervă validă.');
+        if (S.orders.length) { st.textContent = 'Importul se poate face doar într-un cont fără devize.'; return; }
+        if (!confirm('Imporți ' + o.orders.length + ' devize în contul tău?')) return;
+        st.textContent = 'Se importă…';
+        var maxNo = 0;
+        var rows = o.orders.map(function (x) {
+          maxNo = Math.max(maxNo, x.no || 0);
+          return orderToRow({
+            id: uuid(), no: x.no, date: x.date, status: x.status, plate: x.plate, make: x.make, model: x.model, year: x.year, vin: x.vin, km: x.km,
+            client: x.client, phone: x.phone, address: x.address, complaint: x.complaint, findings: x.findings, notes: x.notes, discount: x.discount,
+            vatMode: x.vatMode || 'none', vatRate: x.vatRate || S.settings.vatRate, lines: x.lines || []
+          });
+        });
+        for (var i = 0; i < rows.length; i += 200) {
+          var r = await sb.from('orders').insert(rows.slice(i, i + 200));
+          if (r.error) throw r.error;
+        }
+        var b = await sb.rpc('bump_next_no', { n: maxNo + 1 });
+        if (b.error) throw b.error;
+        if (o.settings) {
+          Object.keys(SMAP).forEach(function (k) { if (o.settings[k] != null && o.settings[k] !== '') S.settings[k] = o.settings[k]; });
+          queueSettings();
+        }
+        var cats = o.catalog || {};
+        var crows = Object.keys(cats).map(function (k) { return { service_id: S.serviceId, key: k, name: cats[k].desc, type: cats[k].type || 'piesa', price: String(cats[k].price || '') }; });
+        if (crows.length) { var c = await sb.from('catalog').upsert(crows, { onConflict: 'service_id,key' }); if (c.error) throw c.error; }
+        await loadAll();
+        updateBrand(); renderSettings();
+        $('importState').textContent = 'Import terminat: ' + rows.length + ' devize. Se afișează cele din ultimele ' + HIST + ' luni.';
+      } catch (err) {
+        st.textContent = 'Importul a eșuat: ' + errMsg(err);
+      }
+    };
+    rd.readAsText(f);
+  }
+
+  /* ---------- Autentificare ---------- */
+  function authErr(e) {
+    var m = errMsg(e);
+    if (/Invalid login/i.test(m)) return 'Email sau parolă greșită.';
+    if (/Email not confirmed/i.test(m)) return 'Emailul nu este confirmat. Apasă linkul din mesajul de confirmare.';
+    if (/already registered|already been registered/i.test(m)) return 'Există deja un cont cu acest email.';
+    if (/at least/i.test(m) && /password/i.test(m)) return 'Parola trebuie să aibă cel puțin 8 caractere.';
+    if (/rate limit|too many/i.test(m)) return 'Prea multe încercări. Așteaptă puțin și încearcă din nou.';
+    if (/Failed to fetch|NetworkError|network/i.test(m)) return 'Nu există conexiune la internet.';
+    return m;
+  }
+  function authMsg(text, isErr) {
+    var el = $('authMsg');
+    el.hidden = !text;
+    el.textContent = text || '';
+    el.className = 'notice' + (isErr ? ' err' : (text ? ' ok' : ''));
+  }
+  function renderAuth(mode, msg, isErr) {
+    authMode = mode;
+    $('authTitle').textContent = { login: 'Autentificare', signup: 'Creează cont', forgot: 'Resetare parolă', recovery: 'Parolă nouă' }[mode];
+    $('authSub').textContent = { login: 'Intră în contul service-ului tău.', signup: 'Creează contul service-ului tău în două minute.', forgot: 'Îți trimitem pe email un link pentru parola nouă.', recovery: 'Alege o parolă nouă pentru cont.' }[mode];
+    $('fName').hidden = mode !== 'signup';
+    $('fPhone').hidden = mode !== 'signup';
+    $('fEmail').hidden = mode === 'recovery';
+    $('fPass').hidden = mode === 'forgot';
+    pwHide();
+    $('a_pass').autocomplete = mode === 'login' ? 'current-password' : 'new-password';
+    $('a_passLabel').textContent = mode === 'recovery' ? 'Parola nouă (minim 8 caractere)' : (mode === 'signup' ? 'Parolă (minim 8 caractere)' : 'Parolă');
+    $('authGo').textContent = { login: 'Intră în cont', signup: 'Creează contul', forgot: 'Trimite linkul de resetare', recovery: 'Salvează parola' }[mode];
+    $('authSwitch').textContent = mode === 'login' ? 'Nu ai cont? Creează unul' : 'Ai deja cont? Autentifică-te';
+    $('authSwitch').hidden = mode === 'recovery';
+    $('authForgot').hidden = mode !== 'login';
+    authMsg(msg, isErr);
+  }
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  function pwHide() { $('a_pass').type = 'password'; $('pwToggle').textContent = 'Arată'; $('pwToggle').setAttribute('aria-label', 'Arată parola'); }
+  async function onAuthSubmit(e) {
+    e.preventDefault();
+    var email = $('a_email').value.trim().toLowerCase(), pass = $('a_pass').value, name = $('a_name').value.trim();
+    var btn = $('authGo');
+    if (authMode !== 'recovery') {
+      if (!email) { authMsg('Scrie adresa de email.', true); return; }
+      if (!EMAIL_RE.test(email)) { authMsg('Scrie o adresă de email validă, de exemplu nume@firma.ro.', true); return; }
+    }
+    btn.disabled = true;
+    try {
+      if (authMode === 'login') {
+        if (!email || !pass) { authMsg('Completează emailul și parola.', true); return; }
+        var r = await sb.auth.signInWithPassword({ email: email, password: pass });
+        if (r.error) throw r.error;
+        await enter(r.data.session);
+      } else if (authMode === 'signup') {
+        if (!name) { authMsg('Scrie numele service-ului.', true); return; }
+        var phone = $('a_phone').value.trim();
+        if (phone.replace(/\D/g, '').length < 9) { authMsg('Scrie un număr de telefon valid, de exemplu 0712 345 678.', true); return; }
+        if (!email) { authMsg('Scrie adresa de email.', true); return; }
+        if (pass.length < 8) { authMsg('Parola trebuie să aibă cel puțin 8 caractere.', true); return; }
+        var r2 = await sb.auth.signUp({ email: email, password: pass, options: { data: { service_name: name, contact_phone: phone } } });
+        if (r2.error) throw r2.error;
+        if (r2.data && r2.data.session) await enter(r2.data.session);
+        else renderAuth('login', 'Cont creat. Ți-am trimis un email de confirmare. Apasă linkul din el, apoi autentifică-te aici.', false);
+      } else if (authMode === 'forgot') {
+        if (!email) { authMsg('Scrie adresa de email.', true); return; }
+        var r3 = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+        if (r3.error) throw r3.error;
+        renderAuth('login', 'Dacă există un cont cu acest email, ai primit un link pentru parola nouă.', false);
+      } else if (authMode === 'recovery') {
+        if (pass.length < 8) { authMsg('Parola trebuie să aibă cel puțin 8 caractere.', true); return; }
+        var r4 = await sb.auth.updateUser({ password: pass });
+        if (r4.error) throw r4.error;
+        recovery = false;
+        history.replaceState(null, '', location.pathname);
+        var g = await sb.auth.getSession();
+        if (g.data && g.data.session) await enter(g.data.session); else renderAuth('login', 'Parola a fost schimbată. Autentifică-te.', false);
+      }
+    } catch (err) {
+      authMsg(authErr(err), true);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+  function resetState() {
+    S.orders = []; S.catalog = {}; S.packages = []; S.serviceId = null; S.email = ''; S.settings = Object.assign({}, DEF);
+    cur = null; session = null;
+    $('nav').hidden = true;
+    $('tools').hidden = true;
+    $('trial').hidden = true;
+    palClose();
+    setStatus('');
+    updateBrand();
+  }
+  function delAccReset() {
+    $('delAccBox').hidden = true; $('delAccOpen').hidden = false;
+    $('delAccInput').value = ''; $('delAccGo').disabled = true; $('delAccGo').textContent = 'Da, șterge definitiv contul';
+    $('delAccMsg').hidden = true;
+  }
+  async function deleteAccount() {
+    var btn = $('delAccGo'), msg = $('delAccMsg'), sid = S.serviceId;
+    msg.hidden = true;
+    btn.disabled = true; btn.textContent = 'Se șterge…';
+    function fail(text) { msg.textContent = text; msg.hidden = false; btn.textContent = 'Da, șterge definitiv contul'; btn.disabled = fold($('delAccInput').value).trim() !== 'sterge'; }
+    try {
+      // 1) verificăm înainte de orice ștergere că funcția de pe server este activată
+      var chk = await sb.rpc('delete_my_account', { dry_run: true });
+      if (chk.error) { fail('Ștergerea contului nu este activată pe server. Nu s-a șters nimic. Contactează administratorul platformei.'); return; }
+      // 2) oprim salvările în curs
+      clearTimeout(settingsTimer);
+      Object.keys(catTimers).forEach(function (k) { clearTimeout(catTimers[k]); });
+      S.orders.forEach(function (o) { clearTimeout(o._t); o._dirty = false; });
+      if (cur) { clearTimeout(cur._t); cur._dirty = false; cur = null; }
+      var guard = 0;
+      while (pending > 0 && guard++ < 50) await new Promise(function (r) { setTimeout(r, 100); });
+      // 3) ștergem datele, apoi contul
+      var r1 = await sb.from('orders').delete().eq('service_id', sid);
+      if (r1.error) throw r1.error;
+      var r2 = await sb.from('catalog').delete().eq('service_id', sid);
+      if (r2.error) throw r2.error;
+      await sb.from('packages').delete().eq('service_id', sid);
+      await sb.from('services').delete().eq('id', sid);
+      var r3 = await sb.rpc('delete_my_account', { dry_run: false });
+      if (r3.error) throw r3.error;
+      try { await sb.auth.signOut(); } catch (e) {}
+      try { localStorage.removeItem('dz_setup_' + sid); } catch (e) {}
+      resetState();
+      $('a_pass').value = '';
+      renderAuth('login', 'Contul a fost șters definitiv.', false);
+      show('Auth');
+    } catch (e) {
+      fail('Nu s-a putut șterge contul: ' + errMsg(e));
+    }
+  }
+  async function signOut() {
+    await leaveEdit();
+    try { await sb.auth.signOut(); } catch (e) {}
+    resetState();
+    $('a_pass').value = '';
+    renderAuth('login');
+    show('Auth');
+  }
+  async function enter(sess) {
+    session = sess;
+    S.email = (sess && sess.user && sess.user.email) || '';
+    $('loadMsg').hidden = false; $('loadErr').hidden = true;
+    show('Loading');
+    try {
+      await loadAll();
+    } catch (e) {
+      $('loadMsg').hidden = true; $('loadErr').hidden = false;
+      $('loadErrText').textContent = 'Nu am putut încărca datele: ' + errMsg(e);
+      return;
+    }
+    var meta = (sess && sess.user && sess.user.user_metadata) || {};
+    if (!String(S.settings.phone || '').trim() && meta.contact_phone) { S.settings.phone = String(meta.contact_phone); queueSettings(); }
+    $('nav').hidden = false;
+    $('tools').hidden = false;
+    updateBrand();
+    setStatus('');
+    showTrial();
+    renderDash();
+    show('Dash');
+    var seenKey = 'dz_setup_' + S.serviceId, seen = false;
+    try { seen = localStorage.getItem(seenKey) === '1'; } catch (e) {}
+    if (setupMissing().length && !seen) {
+      try { localStorage.setItem(seenKey, '1'); } catch (e) {}
+      renderSettings();
+      show('Settings');
+    }
+  }
+
+  /* ---------- Stări, plăți, căutare ---------- */
+  var STAGES = [['working', 'În lucru'], ['done', 'Predat']];
+  var MONTHS = ['ian', 'feb', 'mar', 'apr', 'mai', 'iun', 'iul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  function stageOf(o) { return (o.stage === 'done' || (!o.stage && o.status === 'closed')) ? 'done' : 'working'; }
+  function stageLabel(k) { for (var i = 0; i < STAGES.length; i++) if (STAGES[i][0] === k) return STAGES[i][1]; return k; }
+  function stagePill(o) { var k = stageOf(o); return '<span class="pill st-' + k + '">' + stageLabel(k) + '</span>'; }
+  function payInfo(o) {
+    var total = totals(o).total, adv = Math.max(0, parseNum(o.advance));
+    var paid = o.paid ? total : Math.min(adv, total);
+    var rest = round2(total - paid);
+    var state = (total <= 0 || rest <= 0) ? 'paid' : (paid > 0 ? 'partial' : 'unpaid');
+    return { total: total, paid: round2(paid), rest: rest, state: state };
+  }
+  function payBadge(o) {
+    var p = payInfo(o);
+    if (p.total <= 0) return '';
+    if (p.state === 'paid') return '<span class="pill pay-paid">Încasat</span>';
+    if (p.state === 'partial') return '<span class="pill pay-partial">Avans · rest ' + money(p.rest) + '</span>';
+    return '<span class="pill pay-unpaid">Neîncasat</span>';
+  }
+  function money0(n) { return Math.round(n).toLocaleString('ro-RO'); }
+  function ymOf(d) { return String(d || '').slice(0, 7); }
+  function fold(s) { return String(s == null ? '' : s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  function plateKey(p) { return String(p || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
+  function hayOf(o) {
+    return fold([o.plate, plateKey(o.plate), o.client, o.make, o.model, pad(o.no), String(o.no || ''), o.phone, String(o.phone || '').replace(/\D/g, ''), o.cui, o.vin, o.complaint, o.findings, o.lines.map(function (l) { return l.desc; }).join(' ')].join(' '));
+  }
+  function matchOrders(q) {
+    var terms = fold(q).split(/\s+/).filter(Boolean);
+    return S.orders.filter(function (o) {
+      if (o.no == null) return false;
+      var h = hayOf(o);
+      return terms.every(function (t) { return h.indexOf(t) !== -1; });
+    }).sort(function (a, b) { return b.no - a.no; });
+  }
+
+  var showProfit = true;
+  try { showProfit = localStorage.getItem('dz_profit') !== '0'; } catch (e) {}
+  function markupRate() { return Math.max(0, parseNum(S.settings.markup)); }
+  function priceFromCost(c, m) {
+    var f = (cur.vatMode === 'incl') ? 1 + Math.max(0, parseNum(cur.vatRate)) / 100 : 1;
+    return String(round2(c * (1 + m / 100) * f));
+  }
+  function hasCost(l) { return String(l.cost == null ? '' : l.cost).trim() !== ''; }
+  function adaosOf(o, l) {
+    var c = parseNum(l.cost), t = totals(o), nu = lineCalc(l, t.mode, t.rate).unitNet;
+    return (c > 0 && nu > 0) ? round2((nu / c - 1) * 100) : null;
+  }
+  function profitOf(o) {
+    var t = totals(o), pr = 0, n = 0, cs = 0, ss = 0;
+    o.lines.forEach(function (l) {
+      if (!hasCost(l)) return;
+      var c = parseNum(l.cost), q = parseNum(l.qty), nu = lineCalc(l, t.mode, t.rate).unitNet;
+      pr += (nu - c) * q; n++;
+      if (c > 0) { cs += c * q; ss += nu * q; }
+    });
+    var discNet = Math.max(0, round2(t.subNet - t.net));
+    if (n) pr -= discNet;
+    return { profit: round2(pr), n: n, total: o.lines.length, avg: cs > 0 ? round2((ss / cs - 1) * 100) : null };
+  }
+  function lineProfitText(l) {
+    if (!hasCost(l)) return '';
+    var t = totals(cur), nu = lineCalc(l, t.mode, t.rate).unitNet, v = round2((nu - parseNum(l.cost)) * parseNum(l.qty));
+    return 'profit ' + (v < 0 ? '- ' : '') + money(Math.abs(v));
+  }
+  function updateLineExtras(i) {
+    var l = cur.lines[i], row = document.querySelector('.lrow[data-i="' + i + '"]');
+    var lp = $('lp' + i);
+    if (lp) { lp.textContent = showProfit ? lineProfitText(l) : ''; lp.className = 'lp' + (showProfit && hasCost(l) && lineProfitText(l).indexOf('- ') !== -1 ? ' neg' : ''); }
+    var ad = row && row.querySelector('[data-k="adaos"]');
+    if (ad && document.activeElement !== ad) { var a = adaosOf(cur, l); ad.value = a == null ? '' : String(a); }
+  }
+  function refreshProfitBox() {
+    var pb = $('profitBox');
+    if (!pb) return;
+    var pf = profitOf(cur);
+    if (!showProfit || !pf.n) { pb.hidden = true; pb.innerHTML = ''; return; }
+    pb.hidden = false;
+    pb.className = 'pbox' + (pf.profit < 0 ? ' neg' : '');
+    pb.innerHTML = '<div class="lock">&#128274; Doar pentru tine, nu apare pe document</div>' +
+      '<div><span class="l">Profit estimat (fără TVA)</span><b>' + (pf.profit < 0 ? '- ' : '') + cur$(Math.abs(pf.profit)) + '</b></div>' +
+      '<div><span class="l">Adaos mediu</span><b>' + (pf.avg == null ? '—' : String(pf.avg).replace('.', ',') + '%') + '</b></div>' +
+      '<div><span class="l">Linii cu achiziție</span><b>' + pf.n + ' din ' + pf.total + '</b></div>';
+  }
+  function renderStatePay() {
+    if (!$('stages')) return;
+    var k = stageOf(cur), h = '';
+    STAGES.forEach(function (s) { h += '<button type="button" class="chip st-' + s[0] + (k === s[0] ? ' on' : '') + '" data-stage="' + s[0] + '">' + s[1] + '</button>'; });
+    $('stages').innerHTML = h;
+    var mode = cur.paid ? 'paid' : ((parseNum(cur.advance) > 0 || cur._partial) ? 'partial' : 'unpaid');
+    $('payBox').innerHTML = '<select id="paySel" aria-label="Plată"><option value="unpaid"' + (mode === 'unpaid' ? ' selected' : '') + '>Neîncasat</option><option value="partial"' + (mode === 'partial' ? ' selected' : '') + '>Avans primit</option><option value="paid"' + (mode === 'paid' ? ' selected' : '') + '>Încasat integral</option></select>' +
+      (mode === 'partial' ? '<input id="e_advance" data-f="advance" inputmode="decimal" placeholder="Avans" aria-label="Avans" value="' + esc(cur.advance) + '">' : '') +
+      '<span class="payrest" id="payRest"></span>';
+    updatePayText();
+  }
+  function updatePayText() {
+    var el = $('payRest');
+    if (!el || !cur) return;
+    var p = payInfo(cur);
+    el.textContent = p.total <= 0 ? '' : (p.state === 'paid' ? 'Achitat complet' : 'Rest de plată: ' + cur$(p.rest));
+  }
+  function setStage(k) {
+    cur.stage = k; cur.status = k === 'done' ? 'closed' : 'open';
+    queueOrder(cur); renderStatePay();
+    var pl = $('ePill'); if (pl) { pl.className = 'pill st-' + k; pl.textContent = stageLabel(k); }
+  }
+
+  /* ---------- Panou ---------- */
+  function goDash() { return leaveEdit().then(function () { renderDash(); show('Dash'); }); }
+  function dlRow(o, extra) {
+    return '<div class="dl" data-id="' + esc(o.id) + '" tabindex="0">' + plt(o.plate) + '<div class="grow"><b>' + esc((o.make + ' ' + o.model).trim() || '—') + '</b><small>' + esc(o.client || 'Fără client') + '</small></div>' + extra + '</div>';
+  }
+  function renderDash() {
+    var real = S.orders.filter(function (o) { return o.no != null; });
+    var now = new Date(), ym = ymOf(iso(now)), cu = S.settings.currency || '';
+    var h = '<div class="bar"><h2 style="margin:0">Panou</h2></div>';
+    if (!real.length) {
+      h += '<div class="emptybox"><p>Nu ai niciun deviz încă. Panoul se completează singur pe măsură ce lucrezi.</p><button type="button" class="btn" data-new>Creează primul deviz</button></div>';
+      $('vDash').innerHTML = h;
+      return;
+    }
+    var open = real.filter(function (o) { return stageOf(o) !== 'done'; }).sort(function (a, b) { return b.no - a.no; });
+    var monthOrders = real.filter(function (o) { return ymOf(o.date) === ym; });
+    var monthVal = monthOrders.reduce(function (s, o) { return s + totals(o).total; }, 0);
+    var due = 0, dueList = [];
+    real.forEach(function (o) { var p = payInfo(o); if (p.rest > 0 && p.total > 0) { due += p.rest; dueList.push({ o: o, rest: p.rest }); } });
+    dueList.sort(function (a, b) { return b.rest - a.rest; });
+    var avg = monthOrders.length ? monthVal / monthOrders.length : 0;
+    var mp = 0, mpn = 0;
+    monthOrders.forEach(function (o) { var pf = profitOf(o); if (pf.n) { mp += pf.profit; mpn++; } });
+
+    h += '<div class="stats k4">' +
+      '<div class="stat"><span>În service acum</span><b>' + open.length + '</b></div>' +
+      '<div class="stat"><span>Valoare luna aceasta</span><b>' + money0(monthVal) + ' <small>' + esc(cu) + '</small></b></div>' +
+      '<div class="stat"><span>De încasat</span><b>' + money0(due) + ' <small>' + esc(cu) + '</small></b></div>' +
+      (mpn && showProfit
+        ? '<div class="stat"><span>Profit luna aceasta</span><b>' + (mp < 0 ? '- ' : '') + money0(Math.abs(mp)) + ' <small>' + esc(cu) + '</small></b></div></div>'
+        : '<div class="stat"><span>Medie / deviz luna aceasta</span><b>' + (monthOrders.length ? money0(avg) : '—') + ' <small>' + (monthOrders.length ? esc(cu) : '') + '</small></b></div></div>');
+
+    var ms = [];
+    for (var i = 5; i >= 0; i--) {
+      var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      ms.push({ key: d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2), label: MONTHS[d.getMonth()], paid: 0, rest: 0 });
+    }
+    real.forEach(function (o) {
+      var m = ms.filter(function (x) { return x.key === ymOf(o.date); })[0];
+      if (!m) return;
+      var p = payInfo(o); m.paid += p.paid; m.rest += p.rest;
+    });
+    var max = Math.max.apply(null, ms.map(function (m) { return m.paid + m.rest; })) || 1;
+    var bars = '';
+    ms.forEach(function (m) {
+      var tot = m.paid + m.rest;
+      bars += '<div class="mbar" title="' + m.label + ': ' + money(tot) + ' ' + esc(cu) + ' (încasat ' + money(m.paid) + ')"><div class="mval">' + (tot ? money0(tot) : '') + '</div><div class="mcol"><i class="rest" style="height:' + (m.rest / max * 100) + '%"></i><i class="paid" style="height:' + (m.paid / max * 100) + '%"></i></div><div class="mlab">' + m.label + '</div></div>';
+    });
+    h += '<div class="card"><h3>Valoare devize pe ultimele 6 luni</h3><div class="chart">' + bars + '</div><div class="legend"><span><i class="paid"></i>Încasat</span><span><i class="rest"></i>De încasat</span></div></div>';
+
+    var inSvc = '';
+    open.slice(0, 8).forEach(function (o) { inSvc += dlRow(o, stagePill(o)); });
+    if (!inSvc) inSvc = '<p class="empty">Nicio mașină în service acum.</p>';
+    var dueH = '';
+    dueList.slice(0, 6).forEach(function (x) { dueH += dlRow(x.o, '<span class="pill pay-unpaid">' + money(x.rest) + ' ' + esc(cu) + '</span>'); });
+    if (!dueH) dueH = '<p class="empty">Nimic de încasat. Foarte bine!</p>';
+    h += '<div class="dgrid two"><div class="card"><h3>În service acum</h3>' + inSvc + '</div><div class="card"><h3>De încasat</h3>' + dueH + '</div></div>';
+
+    var cnt = {}, cl = {};
+    real.forEach(function (o) {
+      var seen = {};
+      o.lines.forEach(function (l) {
+        var k = fold(l.desc).trim();
+        if (!k || seen[k]) return;
+        seen[k] = 1;
+        if (!cnt[k]) cnt[k] = { name: l.desc, n: 0 };
+        cnt[k].n++;
+      });
+      var ck = fold(o.client).trim();
+      if (ck) { if (!cl[ck]) cl[ck] = { name: o.client, n: 0, sum: 0 }; cl[ck].n++; cl[ck].sum += totals(o).total; }
+    });
+    var jobs = Object.keys(cnt).map(function (k) { return cnt[k]; }).sort(function (a, b) { return b.n - a.n; }).slice(0, 6);
+    var cls = Object.keys(cl).map(function (k) { return cl[k]; }).sort(function (a, b) { return b.sum - a.sum; }).slice(0, 5);
+    var jh = jobs.map(function (j) { return '<div class="dl static"><div class="grow"><b>' + esc(j.name) + '</b></div><span class="pill st-done">' + j.n + ' ×</span></div>'; }).join('') || '<p class="empty">Încă nu sunt date.</p>';
+    var ch = cls.map(function (c) { return '<div class="dl static"><div class="grow"><b>' + esc(c.name) + '</b><small>' + c.n + (c.n === 1 ? ' vizită' : ' vizite') + '</small></div><b>' + money0(c.sum) + ' ' + esc(cu) + '</b></div>'; }).join('') || '<p class="empty">Încă nu sunt date.</p>';
+    h += '<div class="dgrid two"><div class="card"><h3>Lucrări frecvente</h3>' + jh + '</div><div class="card"><h3>Clienți de top</h3>' + ch + '</div></div>';
+    h += '<p class="hint">Se iau în calcul devizele din ultimele ' + HIST + ' luni.</p>';
+    $('vDash').innerHTML = h;
+  }
+
+  /* ---------- Istoric mașină ---------- */
+  function carVisits(plate) {
+    var k = plateKey(plate);
+    return S.orders.filter(function (o) { return o.no != null && plateKey(o.plate) === k; }).sort(function (a, b) { return b.no - a.no; });
+  }
+  async function openCar(plate) { await leaveEdit(); renderCar(plate); show('Car'); }
+  function renderCar(plate) {
+    var v = carVisits(plate), el = $('vCar');
+    var h = '<div class="bar"><button type="button" class="btn sec" id="carBack">&larr; Înapoi la devize</button><span class="spacer"></span>' + (v.length ? '<button type="button" class="btn" id="carNew" data-plate="' + esc(plate) + '">+ Deviz nou pentru această mașină</button>' : '') + '</div>';
+    if (!v.length) { el.innerHTML = h + '<p class="empty">Nu există vizite pentru această mașină.</p>'; return; }
+    var last = v[0], total = 0, maxKm = 0;
+    v.forEach(function (o) { total += totals(o).total; var km = parseNum(o.km); if (km > maxKm) maxKm = km; });
+    h += '<div class="card carhead"><div class="grow"><div class="cp">' + plt(last.plate) + '</div><h2 style="margin:6px 0 2px">' + esc((last.make + ' ' + last.model).trim() || 'Mașină') + '</h2>' +
+      '<div class="hint" style="margin:0">' + esc([last.year, last.vin].filter(Boolean).join(' · ')) + '</div></div>' +
+      '<div class="cc"><b>' + esc(last.client || 'Fără client') + '</b><br><span class="hint">' + esc([last.phone, last.address].filter(Boolean).join(' · ')) + '</span></div></div>';
+    h += '<div class="stats k4"><div class="stat"><span>Vizite</span><b>' + v.length + '</b></div><div class="stat"><span>Valoare totală</span><b>' + money0(total) + ' <small>' + esc(S.settings.currency || '') + '</small></b></div>' +
+      '<div class="stat"><span>Ultimul kilometraj</span><b>' + (maxKm ? money0(maxKm) : '—') + ' <small>' + (maxKm ? 'km' : '') + '</small></b></div><div class="stat"><span>Ultima vizită</span><b>' + fmtDate(last.date) + '</b></div></div>';
+    v.forEach(function (o) {
+      var names = o.lines.filter(function (l) { return l.desc; }).map(function (l) { return l.desc; });
+      var more = names.length > 8 ? ' și încă ' + (names.length - 8) : '';
+      h += '<div class="card visit" data-id="' + esc(o.id) + '" tabindex="0"><div class="vh"><b>Deviz nr. ' + pad(o.no) + '</b><span class="hint" style="margin:0">' + fmtDate(o.date) + (o.km ? ' · ' + esc(o.km) + ' km' : '') + '</span><span class="spacer"></span>' + stagePill(o) + payBadge(o) + '<b class="vt">' + cur$(totals(o).total) + '</b></div>' +
+        (o.complaint ? '<div class="vc"><span>Reclamat:</span> ' + esc(o.complaint) + '</div>' : '') +
+        (o.findings ? '<div class="vc"><span>Constatat:</span> ' + esc(o.findings) + '</div>' : '') +
+        (names.length ? '<div class="vc"><span>Lucrări:</span> ' + esc(names.slice(0, 8).join(', ')) + more + '</div>' : '') + '</div>';
+    });
+    h += '<p class="hint">Se afișează vizitele din ultimele ' + HIST + ' luni.</p>';
+    el.innerHTML = h;
+  }
+  async function startNewForCar(plate) {
+    var v = carVisits(plate)[0];
+    await leaveEdit();
+    var o = newOrder();
+    if (v) ['plate', 'make', 'model', 'year', 'vin', 'client', 'phone', 'address', 'cui'].forEach(function (f) { o[f] = v[f]; });
+    o._prefill = true;
+    S.orders.push(o);
+    cur = o;
+    renderEdit();
+    show('Edit');
+    var k = $('e_km'); if (k) k.focus();
+  }
+
+  /* ---------- Căutare rapidă (Ctrl+K) ---------- */
+  var palItems = [], palIdx = 0;
+  function palOpen() {
+    if (!S.serviceId) return;
+    $('pal').hidden = false; $('palq').value = ''; palIdx = 0; palRender(); $('palq').focus();
+  }
+  function palClose() { $('pal').hidden = true; }
+  function palRender() {
+    var q = $('palq').value.trim(), h = '';
+    var list = q ? matchOrders(q) : S.orders.filter(function (o) { return o.no != null; }).sort(function (a, b) { return b.no - a.no; });
+    palItems = [];
+    if (q) {
+      var cars = {}, carList = [];
+      list.forEach(function (o) {
+        var k = plateKey(o.plate);
+        if (!k) return;
+        if (!cars[k]) { cars[k] = { t: 'car', plate: o.plate, name: (o.make + ' ' + o.model).trim(), n: 0 }; carList.push(cars[k]); }
+        cars[k].n++;
+      });
+      carList.slice(0, 4).forEach(function (c) { palItems.push(c); });
+    }
+    var firstOrder = palItems.length;
+    list.slice(0, q ? 8 : 6).forEach(function (o) { palItems.push({ t: 'order', o: o }); });
+    if (!palItems.length) { $('palres').innerHTML = '<p class="empty" style="padding:18px">' + (q ? 'Niciun rezultat.' : 'Nu ai devize încă.') + '</p>'; return; }
+    if (palIdx >= palItems.length) palIdx = palItems.length - 1;
+    palItems.forEach(function (it, i) {
+      if (i === 0 && it.t === 'car') h += '<div class="palh">Mașini</div>';
+      if (i === firstOrder) h += '<div class="palh">' + (q ? 'Devize' : 'Recente') + '</div>';
+      if (it.t === 'car') {
+        h += '<div class="palit' + (i === palIdx ? ' on' : '') + '" data-i="' + i + '">' + plt(it.plate) + '<span class="grow">' + esc(it.name) + '</span><small>' + it.n + (it.n === 1 ? ' vizită' : ' vizite') + ' · istoric</small></div>';
+      } else {
+        var o = it.o;
+        h += '<div class="palit' + (i === palIdx ? ' on' : '') + '" data-i="' + i + '">' + plt(o.plate) + '<span class="grow"><b>' + esc(o.client || '—') + '</b> <small>' + esc((o.make + ' ' + o.model).trim()) + '</small></span><small>nr. ' + pad(o.no) + ' · ' + fmtDate(o.date) + '</small>' + stagePill(o) + '</div>';
+      }
+    });
+    $('palres').innerHTML = h;
+    var on = $('palres').querySelector('.palit.on'); if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest' });
+  }
+  function palGo(i) {
+    var it = palItems[i];
+    if (!it) return;
+    palClose();
+    if (it.t === 'car') openCar(it.plate); else openOrder(it.o.id);
+  }
+
+  /* ---------- Temă, banner probă ---------- */
+  function applyTheme(t) { document.documentElement.setAttribute('data-theme', t); }
+  function initTheme() {
+    var t = '';
+    try { t = localStorage.getItem('dz_theme') || ''; } catch (e) {}
+    applyTheme(t === 'dark' ? 'dark' : 'light');
+  }
+  function toggleTheme() {
+    var d = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(d);
+    try { localStorage.setItem('dz_theme', d); } catch (e) {}
+  }
+  function showTrial() {
+    var el = $('trial'), days = parseInt(CFG.TRIAL_DAYS, 10);
+    if (!days || !session || !session.user || !session.user.created_at) { el.hidden = true; return; }
+    var left = days - Math.floor((Date.now() - new Date(session.user.created_at).getTime()) / 86400000);
+    el.hidden = false;
+    el.className = 'trial noprint' + (left <= 3 ? ' warn' : '');
+    el.textContent = left > 0 ? 'Perioadă de probă: ' + left + (left === 1 ? ' zi rămasă.' : ' zile rămase.') : 'Perioada de probă a expirat.';
+  }
+
+  /* ---------- Pornire ---------- */
+  async function boot() {
+    var url = CFG.SUPABASE_URL || '', key = CFG.SUPABASE_ANON_KEY || '';
+    if (!/^https:\/\/[a-z0-9-]+\.supabase\.(co|in)/i.test(url) || /COMPLETEAZA/i.test(url + key) || !key) {
+      $('setupWhy').textContent = 'Valorile din config.js lipsesc sau nu sunt valide.';
+      show('Setup'); return;
+    }
+    if (!window.supabase || !window.supabase.createClient) {
+      $('setupWhy').textContent = 'Biblioteca Supabase nu s-a putut încărca. Verifică conexiunea la internet.';
+      show('Setup'); return;
+    }
+    sb = window.supabase.createClient(url, key);
+    recovery = /type=recovery/.test(location.hash);
+    sb.auth.onAuthStateChange(function (ev) {
+      if (ev === 'PASSWORD_RECOVERY') { recovery = true; renderAuth('recovery'); show('Auth'); }
+      if (ev === 'SIGNED_OUT' && S.serviceId) { resetState(); renderAuth('login'); show('Auth'); }
+    });
+    var g = await sb.auth.getSession();
+    if (g.data && g.data.session) {
+      if (recovery) { renderAuth('recovery'); show('Auth'); } else await enter(g.data.session);
+    } else {
+      renderAuth(recovery ? 'recovery' : 'login');
+      show('Auth');
+    }
+  }
+
+  $('navList').onclick = goList;
+  $('navNew').onclick = startNew;
+  $('navSettings').onclick = goSettings;
+  $('goSetup').onclick = goSettings;
+  $('navOut').onclick = signOut;
+  $('delAccOpen').onclick = function () { $('delAccBox').hidden = false; $('delAccOpen').hidden = true; $('delAccInput').focus(); };
+  $('delAccCancel').onclick = delAccReset;
+  $('delAccInput').addEventListener('input', function () { $('delAccGo').disabled = fold(this.value).trim() !== 'sterge'; });
+  $('delAccGo').onclick = deleteAccount;
+  $('sync').onclick = function () { if ($('sync').className.indexOf('err') !== -1) retrySave(); };
+  $('q').addEventListener('input', renderList);
+  $('statusFilter').addEventListener('change', renderList);
+  $('vList').addEventListener('click', function (e) { if (e.target.closest('[data-new]')) startNew(); });
+  $('listBody').addEventListener('click', function (e) {
+    var tr = e.target.closest('tr.row');
+    if (tr) openOrder(tr.dataset.id);
+  });
+  $('listBody').addEventListener('keydown', function (e) {
+    var tr = e.target.closest('tr.row');
+    if (tr && e.key === 'Enter') openOrder(tr.dataset.id);
+  });
+  $('vEdit').addEventListener('input', onEditInput);
+  $('vEdit').addEventListener('change', onEditChange);
+  $('vEdit').addEventListener('click', onEditClick);
+  $('docBack').onclick = function () { renderEdit(); show('Edit'); };
+  $('kDeviz').onclick = function () { docKind = 'deviz'; renderDoc(); };
+  $('kFisa').onclick = function () { docKind = 'fisa'; renderDoc(); };
+  $('doPrint').onclick = doPrint;
+  $('doPdf').onclick = doPdf;
+  $('vSettings').addEventListener('input', onSettingsInput);
+  $('s_logo').addEventListener('change', onLogo);
+  $('doPass').onclick = changePassword;
+  $('doExport').onclick = exportData;
+  $('doImport').addEventListener('change', importData);
+  $('authForm').addEventListener('submit', onAuthSubmit);
+  $('pwToggle').addEventListener('click', function () {
+    var show = $('a_pass').type === 'password';
+    $('a_pass').type = show ? 'text' : 'password';
+    $('pwToggle').textContent = show ? 'Ascunde' : 'Arată';
+    $('pwToggle').setAttribute('aria-label', show ? 'Ascunde parola' : 'Arată parola');
+  });
+  $('authSwitch').onclick = function () { renderAuth(authMode === 'login' ? 'signup' : 'login'); };
+  $('authForgot').onclick = function () { renderAuth('forgot'); };
+  $('loadRetry').onclick = function () { enter(session); };
+  $('loadOut').onclick = signOut;
+  window.addEventListener('beforeunload', function (e) {
+    if (pending > 0 || S.orders.some(function (o) { return o._dirty; })) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  $('navDash').onclick = goDash;
+  $('navSearch').onclick = palOpen;
+  $('themeFab').onclick = toggleTheme;
+  $('themeBtn').onclick = toggleTheme;
+  $('landCta').onclick = function () { renderAuth('signup'); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  $('vDash').addEventListener('click', function (e) {
+    if (e.target.closest('[data-new]')) { startNew(); return; }
+    var r = e.target.closest('[data-id]');
+    if (r) openOrder(r.dataset.id);
+  });
+  $('vDash').addEventListener('keydown', function (e) {
+    var r = e.target.closest('[data-id]');
+    if (r && e.key === 'Enter') openOrder(r.dataset.id);
+  });
+  $('vCar').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (b && b.id === 'carBack') { goList(); return; }
+    if (b && b.id === 'carNew') { startNewForCar(b.dataset.plate); return; }
+    var r = e.target.closest('[data-id]');
+    if (r) openOrder(r.dataset.id);
+  });
+  $('palq').addEventListener('input', function () { palIdx = 0; palRender(); });
+  $('palq').addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown') { e.preventDefault(); if (palItems.length) { palIdx = (palIdx + 1) % palItems.length; palRender(); } }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); if (palItems.length) { palIdx = (palIdx - 1 + palItems.length) % palItems.length; palRender(); } }
+    else if (e.key === 'Enter') { e.preventDefault(); palGo(palIdx); }
+  });
+  $('palres').addEventListener('click', function (e) {
+    var it = e.target.closest('.palit');
+    if (it) palGo(+it.dataset.i);
+  });
+  $('pal').addEventListener('mousedown', function (e) { if (e.target === $('pal')) palClose(); });
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && String(e.key).toLowerCase() === 'k') { e.preventDefault(); if ($('pal').hidden) palOpen(); else palClose(); }
+    else if (e.key === 'Escape' && !$('pal').hidden) palClose();
+  });
+  initTheme();
+
+  boot();
+})();
+</script>
+</body>
+</html>
