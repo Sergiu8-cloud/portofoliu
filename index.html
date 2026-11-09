@@ -108,6 +108,10 @@ footer .mark{font-family:var(--serif);font-size:18px;color:var(--gold-l);letter-
 @media(prefers-reduced-motion: reduce){
   .scroll-cue svg{animation:none}
 }
+.frame { position: relative; }
+.frame-link { position: absolute; inset: 0; z-index: 5; }
+.visit { display: inline-block; margin-top: 14px; font-weight: 600; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+.visit:hover { opacity: .75; }
 </style>
 </head>
 <body>
@@ -165,35 +169,40 @@ const PROJECTS = [
     category: "Manichiură & pedichiură — Iași",
     description: "Site de programare pentru un salon de unghii, în crem și auriu — cald, discret, fără aglomerare. Clienta alege serviciul și trimite programarea direct pe WhatsApp, fără cont și fără formulare complicate.",
     accent: "#c9a35c",
-    preview: "casiana-nails.html"
+    preview: "casiana-nails.html",
+    link: "https://casiana-nails.vercel.app/"
   },
   {
     title: "Cofetăria Laurinda",
     category: "Cofetărie — Iași",
     description: "O cofetărie reală din Iași, reîmbrăcată într-o identitate negru–auriu–crem. Prima impresie e un perete de fotografii care se rearanjează singur, cu numele Laurinda mereu vizibil deasupra.",
     accent: "#c7a15a",
-    preview: "laurinda-cofetarie.html"
+    preview: "laurinda-cofetarie.html",
+    link:
   },
   {
     title: "APOLLO Design",
     category: "Studio de design interior — Iași",
     description: "Site editorial pentru un studio de design interior: fotografii mari, tipografie serifă elegantă și o poveste care duce vizitatorul de la prima privire până la programarea unei consultații.",
     accent: "#c9a35c",
-    preview: "apollo-design.html"
+    preview: "apollo-design.html",
+    link:
   },
   {
     title: "FIERAR — Confecții Metalice",
     category: "Confecții metalice pe comandă",
     description: "Site direct pentru un atelier de fierărie — pergole, porți, balustrade — cu galerie de lucrări și buton de WhatsApp mereu la vedere, pentru clienți care vor un răspuns rapid.",
     accent: "#8b8880",
-    preview: "confectii-metalice.html"
+    preview: "confectii-metalice.html",
+    link:
   },
       {
     title: "Devize Service",
     category: "Program pentru servise",
     description: "Aplicație online pentru service-uri auto: devize și fișe de lucrări cu TVA, istoric pe număr auto, evidența clienților și profit pe deviz. Funcționează pe telefon și pe calculator.",
     accent: "#e4690c",
-    preview: "devize/index.html"
+    preview: "devize/index.html",
+    link: "https://devize-servise-582y.vercel.app/"
   }
   ];
 
@@ -211,13 +220,14 @@ PROJECTS.forEach((p, i) => {
        </div>`;
 
   row.innerHTML = `
-    <div class="frame-wrap">
-      <div class="frame">${frameInner}</div>
+        <div class="frame-wrap">
+      <div class="frame">${frameInner}${p.link ? `<a class="frame-link" href="${p.link}" target="_blank" rel="noopener" aria-label="Deschide ${p.title}"></a>` : ''}</div>
     </div>
     <div class="row-text">
       <span class="kicker" style="color:${p.accent}">${p.category}</span>
       <h3>${p.title}</h3>
       <p>${p.description}</p>
+      ${p.link ? `<a class="visit" href="${p.link}" target="_blank" rel="noopener" style="color:${p.accent}">Deschide site-ul →</a>` : ''}
     </div>`;
   rowsEl.appendChild(row);
 });
